@@ -18,9 +18,11 @@ First time: Right click project, Run As -> "Run Configurations", expand Maven Bu
 Afterwards you can just click the drop-down next to the green "play" button and choose the "cobertura" option.
 The coverage report can then be viewed in your web browser at: target/site/cobertura/index.html
 
-To host the app on http://localhost:8080: 
+To host your web app: 
 Go to "Run Configurations", run the "run" configuration.
+Open Google Chrome and navigate to http://localhost:8080 to access the application.
+You can stop the web server by clicking the red "stop" button in the console window.
 
 To run Cucumber tests:
-Make sure the web server is running using the steps above.
+Make sure the webserver is running when you run the Cucumber tests (using the steps for hosting the web app above):
 Go to "Run Configurations", run the "cucumber" configuration.
