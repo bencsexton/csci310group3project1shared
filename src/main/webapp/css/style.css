@@ -1,0 +1,10 @@
+.title{
+	color: midnightBlue;
+}
+html, body{
+	margin: 0;
+}
+
+html, body, .container-fluid{
+	background-color: snow;
+}

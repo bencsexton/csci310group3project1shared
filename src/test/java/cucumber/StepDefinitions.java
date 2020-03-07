@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.By.ById;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.Assert.assertTrue;
@@ -13,9 +14,9 @@ import static org.junit.Assert.assertTrue;
  * Step definitions for Cucumber tests.
  */
 public class StepDefinitions {
-	private static final String ROOT_URL = "http://localhost:8080/";
+	static final String ROOT_URL = "http://localhost:8080/";
 
-	private final WebDriver driver = new ChromeDriver();
+	public final WebDriver driver = null;// = new ChromeDriver();
 
 	@Given("I am on the index page")
 	public void i_am_on_the_index_page() {
@@ -24,7 +25,7 @@ public class StepDefinitions {
 
 	@When("I click the link")
 	public void i_click_the_link() {
-		driver.findElement(By.tagName("a")).click();
+		driver.findElement(By.tagName("a")).click(); 
 	}
 
 	@Then("I should see header {string}")
@@ -34,7 +35,13 @@ public class StepDefinitions {
 
 	@After()
 	public void after() {
-		driver.quit();
+//		driver.quit();
 	}
+//	
+//	@Then("I should see text box {string}")
+//	public void i_should_see_text_box(String string) {
+//		System.out.println(driver.findElement(By.tagName("input")));
+//		assertTrue(true);
+//	}
 	
 }

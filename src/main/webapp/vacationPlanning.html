@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vacation Planning</title>
+    <link rel="stylesheet" type="text/css" href="css/vacationPlanning.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col text-center m-5 title">
+				<h1 >Vacation Planning</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-12 col-md-4" id="search-form">
+				<form >
+					<div class="form-group row">
+						<div class="col col-4">
+							<label class="form-label" for="tempRangeLow">Range</label>
+						</div>
+						<div class="col col-8 d-flex flex-row justify-content-between">
+							<input type="text" name="tempRangeLow" id="tempRangeLow" class="form-control">
+							<span class="ml-2 mr-2">_</span>
+							<input type="text" name="tempRangeHigh" id="tempRangeHigh" class="form-control">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col col-4">
+							<label class="form-label" for="numResults">Num Results</label>
+						</div>
+						<div class="col col-8 d-flex flex-row justify-content-between">
+							<input type="text" name="numResults" id="numResults" class="form-control">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col col-4">
+							<label class="form-label" for="location">Location</label>
+						</div>
+						<div class="col col-8 d-flex flex-row justify-content-between">
+							<input type="text" name="location" id="location" class="form-control">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col col-9 col-md-12 col-lg-9 mb-1">
+							<input class="btn btn-primary" type="submit" name="submit" id="submit" value="Find My Vacation Spot">
+						</div>
+						<div class="col col-3 col-md-12 col-lg-3 d-flex flex-row justify-content-between">
+							<input id="tempToggle" type="checkbox" checked data-toggle="toggle" data-size="normal">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col col-12 col-md-8">
+				
+			</div>
+		</div>
+	</div>
+<script src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="js/vacationPlanning.js"></script>
+<link rel="stylesheet" href="css/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+<script src="css/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<link href="css/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="css/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js"></script>
+</body>
+</html>
