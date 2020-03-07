@@ -34,6 +34,17 @@ public class StepDefinitionsVacationPlanning {
 	    assertEquals(string, driver.findElement(By.id("submit")).getAttribute("value"));
 	}
 	
+	@When("I submit the form")
+	public void i_submit_the_form() {
+		driver.findElement(By.id("submit")).click();
+	}
+
+	@Then("I should see a VP illegal value error for {string}")
+	public void i_should_see_a_VP_illegal_value_error_for(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
 	@After()
 	public void after() {
 		driver.quit();
