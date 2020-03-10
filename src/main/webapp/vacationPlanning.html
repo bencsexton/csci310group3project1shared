@@ -14,8 +14,8 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col col-12 col-md-4" id="search-form">
-				<form >
+			<div class="col col-12 col-md-4">
+				<form id="search-form">
 					<div class="form-group row">
 						<div class="col col-4">
 							<label class="form-label" for="tempRangeLow">Range</label>
@@ -30,29 +30,31 @@
 						<div class="col col-4">
 							<label class="form-label" for="numResults">Num Results</label>
 						</div>
-						<div class="col col-8 d-flex flex-row">
-							<input type="text" name="numResults" id="numResults" class="form-control">
+						<div class="col col-8 d-flex flex-row justify-content-between">
+							<input type="text" name="numResults" id="numResults" class="form-control border border-danger">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col col-4">
 							<label class="form-label" for="location">Location</label>
 						</div>
-						<div class="col col-8 d-flex flex-row ">
+						<div class="col col-8 d-flex flex-row justify-content-between">
 							<input type="text" name="location" id="location" class="form-control">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col col-9 col-md-12 col-lg-9 mb-1">
-							<input class="btn btn-primary" type="submit" name="submit" id="submit" value="Find My Vacation Spot">
+							<button class="btn btn-primary" id="submit" type="submit">
+								Find My Vacation Spot
+							</button>
 						</div>
-						<div class="col col-3 col-md-12 col-lg-3 d-flex flex-row ">
+						<div class="col col-3 col-md-12 col-lg-3 d-flex flex-row justify-content-between">
 							<input id="tempToggle" type="checkbox" checked data-toggle="toggle" data-size="normal">
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="col col-12 col-md-8">
+			<div class="col col-12 col-md-8" id="results">
 				
 			</div>
 		</div>

@@ -8,3 +8,11 @@ html, body{
 html, body, .container-fluid{
 	background-color: snow;
 }
+
+.border-danger{
+	color: tomato;
+}
+
+.error-text{
+	color: tomato;
+}
