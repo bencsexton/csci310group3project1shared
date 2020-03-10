@@ -9,10 +9,19 @@ html, body, .container-fluid{
 	background-color: snow;
 }
 
-.border-danger{
-	color: tomato;
+.error-input{
+	border: 2px solid tomato;
 }
 
 .error-text{
 	color: tomato;
+	font-weight: bold;
+}
+
+.dark-row{
+	background-color: #EFEFEF;
+}
+.fav-btn{
+	margin-top: 7px;
+	background-color: snow; 
 }
