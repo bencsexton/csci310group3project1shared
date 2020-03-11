@@ -1,3 +1,5 @@
+let rowArray; // holds all of the rows so they can be reordered
+
 //initialize toggle
 function initializeToggle(toggleSelector){
 	$(function(){
@@ -26,6 +28,10 @@ function createTableHeader(resultsTable, tableHeaders){
 	for(let header of tableHeaders){
 		thead.append("<th for=\"col\">"+  header +"</th>");
 	}
+	const dist = $('<th id="distance">Distance</th>');
+	initDistanceSort(dist, tableDatas, resultsTable);
+	thead.append(dist);
+	thead.append("<th></th>");
 	resultsTable.append(thead);
 }
 
@@ -44,26 +50,50 @@ function makeFavButton(favorite, id){
 	return a;
 }
 
+// order = 'asc'|'desc'
+function makeRowArray(locations, tableDatas, order){ 
+	let row;
+	rowArray = [];
+	for(let location of locations){
+		row = $("<tr class=\"result-row\"></tr>");
+		let td;
+		for(let attr of tableDatas){
+			td = $("<td>" + location[attr] + "</td>");
+			row.append(td);
+		}
+		row.append(makeFavButton(location.favorite, location.city));
+		rowArray.push(row);
+		// resultsTable.append(row);
+	}
+	return rowArray;
+}
+
+function displayRows(resultsTable, rowArray){
+	$('tbody').empty(); // this is a hack
+
+	// clear dark rows
+	rowArray.forEach((row) => {
+		row.removeClass('dark-row');
+	});
+	let dark = false;
+	for(let row of rowArray){
+		if(dark){
+			row.addClass('dark-row');
+		}
+		dark = !dark;
+		resultsTable.append(row);
+	}
+}
+
 function displayResults(locations, resultsTable, tableHeaders, tableDatas){
 	if(locations.length == 0){
 		resultsTable.append("No locations found");
 	}
 	else{
 		createTableHeader(resultsTable, tableHeaders);
-		let row;
-		let dark = false;
-		for(let location of locations){
-			row = $("<tr></tr>");
-			if(dark){
-				row.addClass('dark-row');
-			}
-			dark = !dark;
-			for(let td of tableDatas){
-				row.append("<td>" + location[td] + "</td>");
-			}
-			row.append(makeFavButton(location.favorite, location.city));
-			resultsTable.append(row);
-		}
+		makeRowArray(locations, tableDatas);
+		sortRows(rowArray);
+		displayRows(resultsTable, rowArray);
 	}
 }
 
@@ -92,3 +122,47 @@ function initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders,
 	// return false;
 }
 
+let distanceIdx;
+function setDistanceIdx(tableDatas){
+	distanceIdx = tableDatas.indexOf('distance');
+}
+
+// function cmp(a, b) {
+// 	const ta = parseInt(a[0].children[distanceIdx].innerHTML);
+// 	const tb = parseInt(b[0].children[distanceIdx].innerHTML);
+// 	let ret;
+// 	ascending = !ascending;
+
+// 	if(ascending){
+// 		ret = ta - tb;
+// 		// return parseInt(a[0].children[distanceIdx].innerHTML) - parseInt(b[0].children[distanceIdx].innerHTML);
+// 	}
+// 	else{
+// 		ret = tb - ta;
+// 		// return parseInt(b[0].children[distanceIdx].innerHTML) - parseInt(a[0].children[distanceIdx].innerHTML);
+// 	}
+// 	return ret;
+// }
+function asc(a, b){
+	return parseInt(a[0].children[distanceIdx].innerHTML) - parseInt(b[0].children[distanceIdx].innerHTML);
+}
+function desc(a, b){
+	return parseInt(b[0].children[distanceIdx].innerHTML) - parseInt(a[0].children[distanceIdx].innerHTML);
+}
+
+let ascending = true; // gets flipped the first time
+function sortRows(rowArray){
+	let cmp = desc;
+	if(ascending){
+		cmp = asc;
+	}
+	rowArray.sort(cmp);
+	ascending = !ascending;
+}
+
+function initDistanceSort(distanceHeader, tableDatas, resultsTable){
+	distanceHeader.on('click', function(){
+		sortRows(rowArray);
+		displayRows(resultsTable, rowArray);
+	});
+}
