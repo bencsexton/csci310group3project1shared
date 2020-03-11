@@ -57,5 +57,13 @@ def vacaSearch():
 
 	return jsonify(response)
 
+
+@app.route('/api/activityPlanning/search')
+def activitySearch():
+	response = {}
+	errors = {field[0] for field in request.args.items() if not field[1]}
+	# errors = set()
+	r = request.args
+
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=True, port=8080)

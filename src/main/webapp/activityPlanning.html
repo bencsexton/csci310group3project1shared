@@ -2,13 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vacation Planning</title>
-    <link rel="stylesheet" type="text/css" href="static/reddit.css">
+    <title>Activity Planning</title>
+
+	<link rel="stylesheet" href="css/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+	<script src="css/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+	<link href="css/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vacationPlanning.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-
-<link rel="stylesheet" href="css/bootstrap-4.3.1-dist/css/bootstrap.min.css">
-<script src="css/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col text-center m-5 title">
+				<h1>Activity Planning</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-12 col-md-4">
+				<form id="search-form">
+					<div class="form-group row">
+						<div class="col col-4">
+							<label class="form-label" for="activity">Activity</label>
+						</div>
+						<div class="col col-8 d-flex flex-row justify-content-between">
+							<input type="text" name="activity" id="activity" class="form-control">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col col-4">
+							<label class="form-label" for="numResults">Num Results</label>
+						</div>
+						<div class="col col-8 d-flex flex-row justify-content-between">
+							<input type="text" name="numResults" id="numResults" class="form-control ">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col col-4">
+							<label class="form-label" for="location">Current Location</label>
+						</div>
+						<div class="col col-8 d-flex flex-row justify-content-between">
+							<input type="text" name="location" id="location" class="form-control ">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col col-9 col-md-12 col-lg-9 mb-1">
+							<button class="btn btn-primary" id="submit" type="submit">
+								Find My Vacation Spot
+							</button>
+						</div>
+						<div class="col col-3 col-md-12 col-lg-3 d-flex flex-row justify-content-between">
+							<input id="tempToggle" type="checkbox" checked data-toggle="toggle" data-size="normal">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col col-12 col-md-8 text-center" >
+				<table class="table table-striped" id="results"></table>
+			</div>
+		</div>
+	</div>
 <script src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="js/vacation_activity.js"></script>
+<script type="text/javascript" src="js/activityPlanning.js"></script>
+<script src="css/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js"></script>
 </body>
 </html>
