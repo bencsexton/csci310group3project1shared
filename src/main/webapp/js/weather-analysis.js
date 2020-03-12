@@ -8,25 +8,25 @@ function loadFavorites() {
     const endpoint = "http://127.0.0.1:5000/api/favorites/list";
     $.getJSON(endpoint, function(results) {
         console.log(results);
-        const locations = results.favorites;
-        if (locations.length == 0) {
+        const favorites = results.favorites;
+        if (favorites.length == 0) {
             $('.list-group-no-items').show();
             $('.list-buttons').hide();
             $('.onoffswitch').hide();
         }
         else {
-            displayFavorites(locations);
+            displayFavorites(favorites);
         }
     });
 }
 
-function displayFavorites(locations) {
+function displayFavorites(favorites) {
     $('.list-group-no-items').hide();
     $('.list-buttons').show();
     $('.onoffswitch').show();
 
-    const favorites = $('.list-group');
-    for (let location of locations) {
+    const favoritesDiv = $('.list-group');
+    for (let location of favorites) {
         let p1 = $('<p>').text(location.city);
         let p2 = $('<p>').text(location.country);
         let div1 = $('<div>').addClass('list-item-city').append(p1);
@@ -37,7 +37,7 @@ function displayFavorites(locations) {
             .attr("data-location-id", location.id)
 //            .attr('href', '#')
             .append(div1, div2);
-        favorites.append(a);
+        favoritesDiv.append(a);
     }
     
     handleCitySelection();
@@ -46,7 +46,7 @@ function displayFavorites(locations) {
 function handleCitySelection() {
     $('a').click(function() {        
         $('a.list-group-item.active').removeClass('active');
-        $(this).addClass('active');        
+        $(this).addClass('active');   
         
         const locationId = $(this).data('location-id');
         getWeatherData(locationId)
@@ -79,6 +79,9 @@ function displayCurrentWeather(current) {
 }
 
 function displayForecast(forecast) {
+    if ($('.forecast').length) {
+        $('.forecast').remove();
+    }
     let parent = $('<div>')
             .addClass('forecast')            
             .appendTo('#weather-section');
@@ -102,6 +105,9 @@ function displayForecast(forecast) {
 }
 
 function displayHistoricData(historic) {
+    if ($('.historic').length) {
+        $('.historic').remove();
+    }
     let parent = $('<div>')
                 .addClass('historic')
                 .appendTo('#weather-section');
@@ -168,11 +174,10 @@ function drawChart(historic) {
     }
 }
 
-//function displayCityImage(image) {    
-//    $('#city-photo').attr('src', image);
-//}
 function displayCityImage(image) {    
-    $('#photo-section').empty();
+    if ($('#photo-section').length) {
+        $('#photo-section').empty();
+    }    
     $('<img>')
         .attr('id', 'city-photo')
         .attr('src', image)
