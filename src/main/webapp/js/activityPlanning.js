@@ -1,7 +1,7 @@
 const resultsTable = $('#results');
 const inputs = ["activity", "numResults", "location"];
-const url = 'http://127.0.0.1:8080/api/activityPlanning/search';
-const tableHeaders = ["City", "Country", "Current Temperature"];
+const url = 'http://localhost:7890/api/activityPlanning/search';
+const tableHeaders = ["City", "Country", "Current temp"];
 const tableDatas = ["city", "country",  "currentTemp", "distance"];
 const toggleSelector = $('#tempToggle');
 const formSelector = $('#search-form');
@@ -30,4 +30,10 @@ $.get({
 	url: activityUrl,
 	dataType: 'JSON',
 	success: initializeAutocomplete
+});
+
+const hiddenDiv = $('#hidden-autocomplete-div');
+$( "#activity" ).on( "autocompleteresponse", function( event, ui ) {
+	console.log(ui);
+
 });

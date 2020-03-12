@@ -42,8 +42,54 @@ Feature: Vacation Planning
 #		When I enter '12' into input 'numResults'
 #		And I submit the form
 #		Then I should not see an illegal error value for 'numResults'
+
+#	Scenario: run a valid search and confirm table has proper headers and data
+#		Given I am on the Vacation Planning page
+#		When I enter '12' into input 'tempRangeLow'
+#		And I enter '80' into input 'tempRangeHigh'
+#		And I enter '5' into input 'numResults'
+#		And I enter 'Los Angeles' into input 'location'
+#		And I submit the form
+#		Then I should see table header 'City'
+#		And I should see table header 'Country'
+#		And I should see table header 'Avg. Min. Temp.'
+#		And I should see table header 'Avg. Max. Temp.'
+#		And I should see table header 'Distance'
 		
+#	Scenario: run a valid search and toggle the distance sorting
+#		Given I am on the Vacation Planning page
+#		When I enter '12' into input 'tempRangeLow'
+#		And I enter '80' into input 'tempRangeHigh'
+#		And I enter '5' into input 'numResults'
+#		And I enter 'Los Angeles' into input 'location'
+#		And I submit the form		
+#		Then the distances should be in 'ascending' order
+#		When I click the distance header
+#		Then the distances should be in 'descending' order
+#		When I click the distance header
+#		Then the distances should be in 'ascending' order
+#		When I click the distance header
+#		Then the distances should be in 'descending' order
+
+#	Scenario: add and remove cities from favorites
+#		Given I am on the Vacation Planning page
+#		When I enter '12' into input 'tempRangeLow'
+#		And I enter '80' into input 'tempRangeHigh'
+#		And I enter '5' into input 'numResults'
+#		And I enter 'Los Angeles' into input 'location'
+#		And I submit the form
 		
+#		Then the first location favorite changer should say 'Add to favorites'
+		
+#		When I click the favorites changer of the first location
+#		Then the first location favorite changer should say 'Remove from favorites'
+		
+#		When I click the favorites changer of the first location
+#		Then the first location favorite changer should say 'Add to favorites'
+
+# has a navigation bar
+
+# displays "No locations found"
 		
 		
 		
