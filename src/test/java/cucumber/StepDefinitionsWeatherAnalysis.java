@@ -24,7 +24,7 @@ public class StepDefinitionsWeatherAnalysis {
 	}
 	@Given("The favorite cities list has no item")
 	public void theFavoriteCitiesListHasNoItem() {
-		assertTrue(driver.findElement(By.id("favorite-cities-list")).getText().equals("");
+		assertTrue(driver.findElement(By.id("favorite-cities-list")).getText().equals(""));
 	}
 	@Then("I should see a text {string} in {string}")
 	public void iShouldSeeAText(String string1, String string2) {
