@@ -1,6 +1,6 @@
 const resultsTable = $('#results');
 const inputs = ["tempRangeLow", "tempRangeHigh", "numResults", "location"];
-const url = 'http://127.0.0.1:8080/api/vacationPlanning/search';
+const url = 'http://localhost:7890/api/vacationPlanning/search';
 const tableHeaders = ["City", "Country", "Avg. Min. Temp.", "Avg. Max. Temp.", "Distance", ""];
 const tableDatas = ["city", "country", "avgMinTemp", "avgMaxTemp", "distance"];
 const toggleSelector = $('#tempToggle');

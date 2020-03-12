@@ -7,14 +7,15 @@ const toggleSelector = $('#tempToggle');
 const formSelector = $('#search-form');
 
 const activityInput = $('#activity');
-const activityUrl = 'http://127.0.0.1:8080/api/activityPlanning/activities'
+const activityUrl = 'http://localhost:7890/api/activityPlanning/activities'
 
 const distanceHeader = $('#distance');
 
 
 initializeToggle(toggleSelector);
-initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders, tableDatas);
 setDistanceIdx(tableDatas);
+initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders, tableDatas);
+
 // initDistanceSort(distanceHeader, tableDatas, resultsTable);
 
 function initializeAutocomplete(response){

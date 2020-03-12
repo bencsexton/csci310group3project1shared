@@ -62,6 +62,7 @@ function makeRowArray(locations, tableDatas, order){
 			row.append(td);
 		}
 		row.append(makeFavButton(location.favorite, location.city));
+		row.children()[distanceIdx].classList.add('distance');
 		rowArray.push(row);
 		// resultsTable.append(row);
 	}
@@ -153,6 +154,7 @@ function desc(a, b){
 
 let ascending = true; // gets flipped the first time
 function sortRows(rowArray){
+	rowArray.reverse();
 	let cmp = desc;
 	if(ascending){
 		cmp = asc;
