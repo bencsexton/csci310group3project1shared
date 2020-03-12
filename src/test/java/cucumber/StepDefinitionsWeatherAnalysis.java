@@ -24,7 +24,7 @@ public class StepDefinitionsWeatherAnalysis {
 	}
 	@Given("The favorite cities list has no item")
 	public void theFavoriteCitiesListHasNoItem() {
-		assertTrue(driver.findElement(By.id("favorite-cities-list")).getText().equals(""));
+		assertEquals("", driver.findElement(By.id("favorite-cities-list")).getText());
 	}
 	@Then("I should see a text {string} in {string}")
 	public void iShouldSeeAText(String string1, String string2) {
@@ -32,11 +32,12 @@ public class StepDefinitionsWeatherAnalysis {
 	}
 	@Then("I should not see {string} element")
 	public void iShouldNotSeeElement(String string) {
-		assertEquals(0, driver.findElement(By.id(string)).getSize());
+		assertEquals(0, driver.findElement(By.id(string)).getSize().getHeight());
+		assertEquals(0, driver.findElement(By.id(string)).getSize().getWidth());
 	}
 	@When("The favorite cities list has one or more items")
 	public void theFavoriteCitiesListHasOneOrMoreItems() {
-		assertFalse(driver.findElement(By.id("favorite-cities-list")).getText().equals(""));
+		assertNotEquals("", driver.findElement(By.id("favorite-cities-list")).getText());
 	}
 	@When("I click a city from the favorite cities list")
 	public void iClickACityFromTheFavoriteCitiesList() {

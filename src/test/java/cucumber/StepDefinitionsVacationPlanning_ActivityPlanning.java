@@ -159,7 +159,7 @@ public class StepDefinitionsVacationPlanning_ActivityPlanning {
 	
 	@Then("the activity input should say {string}")
 	public void the_activity_input_should_say(String string) {
-	    assertEquals(string, driver.findElement(By.id("activity")));
+	    assertEquals(string, driver.findElement(By.id("activity")).getText());
 	}
 	
 	@When("I click the input {string}")
