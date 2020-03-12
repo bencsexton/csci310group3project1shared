@@ -1,4 +1,4 @@
-package csci310;
+package csci310.model;
 
 import java.util.Date;
 import java.util.List;

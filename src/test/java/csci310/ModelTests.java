@@ -1,5 +1,9 @@
 package csci310;
 
+import csci310.model.AnalysisForecast;
+import csci310.model.FutureForecast;
+import csci310.model.SearchForecast;
+import csci310.model.WeatherHistory;
 import org.junit.Assert;
 import org.junit.Test;
 

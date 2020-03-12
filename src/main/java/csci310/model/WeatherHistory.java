@@ -1,4 +1,4 @@
-package csci310;
+package csci310.model;
 
 public class WeatherHistory {
 	private float low;

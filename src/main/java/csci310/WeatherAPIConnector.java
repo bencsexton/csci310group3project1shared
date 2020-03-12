@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.google.gson.*;
+import csci310.model.SearchForecast;
 
 public class WeatherAPIConnector {
 	private static HttpURLConnection connection;
