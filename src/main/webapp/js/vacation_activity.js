@@ -92,6 +92,7 @@ function displayResults(locations, resultsTable, tableHeaders, tableDatas){
 	else{
 		createTableHeader(resultsTable, tableHeaders);
 		makeRowArray(locations, tableDatas);
+		ascending = true;
 		sortRows(rowArray);
 		displayRows(resultsTable, rowArray);
 	}
