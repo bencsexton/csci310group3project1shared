@@ -1,12 +1,12 @@
 package csci310;
 
 public class WeatherHistory {
-	private static float low;
-	private static float high;
+	private float low;
+	private float high;
 	
-	public WeatherHistory(float _low, float _high) {
-		low = _low;
-		high = _high;
+	public WeatherHistory(float low, float high) {
+		this.low = low;
+		this.high = high;
 	}
 	
 	public float getLow() {

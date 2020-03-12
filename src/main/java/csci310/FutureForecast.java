@@ -3,19 +3,18 @@ package csci310;
 import java.util.Date;
 
 public class FutureForecast {
-	private static Date date = new Date(0);
-	private static float maxTemp;
-	private static float minTemp;
-	private static String desc;
-	private static String icon;
+	private Date date = new Date(0);
+	private float maxTemp;
+	private float minTemp;
+	private String desc;
+	private String icon;
 	
-	
-	public FutureForecast(Date _date, float _maxT, float _minT, String _desc, String _icon) {
-		date = _date;
-		maxTemp = _maxT;
-		minTemp = _minT;
-		desc = _desc;
-		icon = _icon;
+	public FutureForecast(Date date, float maxT, float minT, String desc, String icon) {
+		this.date = date;
+		maxTemp = maxT;
+		minTemp = minT;
+		this.desc = desc;
+		this.icon = icon;
 	}
 	
 	public Date getDate() {

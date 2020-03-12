@@ -4,12 +4,12 @@ import java.util.Date;
 import java.util.List;
 
 public class AnalysisForecast extends SearchForecast {
-	private static List<FutureForecast> next5Days;
-	private static List<WeatherHistory> historicalTemps;
-	public AnalysisForecast(String _location, Date _date, float _temp, List<FutureForecast> _n5D, List<WeatherHistory> _hTs) {
-		super(_location, _date, _temp);
-		next5Days = _n5D;
-		historicalTemps = _hTs;
+	private List<FutureForecast> next5Days;
+	private List<WeatherHistory> historicalTemps;
+	public AnalysisForecast(String location, Date date, float temp, List<FutureForecast> n5D, List<WeatherHistory> hTs) {
+		super(location, date, temp);
+		next5Days = n5D;
+		historicalTemps = hTs;
 	}
 	
 	public List<FutureForecast> getNext5Days(){
