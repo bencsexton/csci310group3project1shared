@@ -32,8 +32,11 @@ $.get({
 	success: initializeAutocomplete
 });
 
-const hiddenDiv = $('#hidden-autocomplete-div');
-$( "#activity" ).on( "autocompleteresponse", function( event, ui ) {
-	console.log(ui);
-
-});
+// const hiddenDiv = $('#hidden-autocomplete-div');
+// $( "#activity" ).on( "autocompleteresponse", function( event, ui ) {
+// 	// console.log(ui);
+// 	hiddenDiv.empty();
+// 	for(let option of ui.content){
+// 		hiddenDiv.append("<span class='autocomplete-option'>" + option.value + "</span>");
+// 	}
+// });
