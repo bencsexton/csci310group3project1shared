@@ -3,9 +3,7 @@ package csci310;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import csci310.servlet.favorites.FavoritesAddServlet;
 import csci310.servlet.favorites.FavoritesListServlet;
 import csci310.servlet.favorites.FavoritesRemoveServlet;
@@ -19,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -74,11 +73,17 @@ public class FavoritesServletTest {
     @Test
     public void testAddAndList() throws IOException, ServletException {
 
+        // Session mocking properties
+        HashSet<String> favs = new HashSet<>();
+        when(session.getAttribute("favorites")).thenReturn(favs);
+
         // Add the object with the addition endpoint
         JsonObject postBody = new JsonObject();
-        postBody.addProperty("cityID", "San Francisco");
+        postBody.addProperty("cityId", "San Francisco");
 
         when(request1.getSession()).thenReturn(session);
+        when(request2.getSession()).thenReturn(session);
+
         when(request1.getReader()).thenReturn(new BufferedReader(new StringReader(postBody.toString())));
 
         new FavoritesAddServlet().doPost(request1, response1);
@@ -91,37 +96,36 @@ public class FavoritesServletTest {
         when(response2.getWriter()).thenReturn(pw);
         new FavoritesListServlet().doGet(request2, response2);
 
-        //Verify the session attribute value
-        verify(session).getAttribute("favorites");
         String result = sw.getBuffer().toString().trim();
 
         JsonObject expectedResponse = new JsonObject();
         expectedResponse.add("favorites", new JsonArray());
         expectedResponse.getAsJsonArray("favorites").add(new JsonPrimitive("San Francisco"));
-
-        Assert.assertEquals(expectedResponse.toString(), result);
+        JsonParser parser = new JsonParser();
+        Assert.assertEquals(expectedResponse, parser.parse(result));
     }
 
     @Test
     public void testRemoveBasic() throws IOException, ServletException {
 
+        // Session mocking properties
+        HashSet<String> favs = new HashSet<>();
+        when(session.getAttribute("favorites")).thenReturn(favs);
+
         // Add the object with the addition endpoint
         JsonObject postBody = new JsonObject();
-        postBody.addProperty("cityID", "San Francisco");
+        postBody.addProperty("cityId", "San Francisco");
 
         when(request1.getSession()).thenReturn(session);
+        when(request2.getSession()).thenReturn(session);
+        when(request3.getSession()).thenReturn(session);
         when(request1.getReader()).thenReturn(new BufferedReader(new StringReader(postBody.toString())));
         new FavoritesAddServlet().doPost(request1, response1);
 
-        verify(session).getAttribute("favorites");
-
 
         // Remove the object with the removal endpoint
-        when(request2.getSession()).thenReturn(session);
         when(request2.getReader()).thenReturn(new BufferedReader(new StringReader(postBody.toString())));
         new FavoritesRemoveServlet().doPost(request2, response2);
-
-        verify(session).getAttribute("favorites");
 
         // Verify list contents with list endpoint
         StringWriter sw = new StringWriter();
@@ -129,14 +133,13 @@ public class FavoritesServletTest {
         when(response3.getWriter()).thenReturn(pw);
         new FavoritesListServlet().doGet(request3, response3);
 
-        //Verify the session attribute value
-        verify(session).getAttribute("favorites");
+
         String result = sw.getBuffer().toString().trim();
 
         JsonObject expectedResponse = new JsonObject();
         expectedResponse.add("favorites", new JsonArray());
-
-        Assert.assertEquals(expectedResponse.toString(), result);
+        JsonParser parser = new JsonParser();
+        Assert.assertEquals(expectedResponse, parser.parse(result));
     }
 
 }
