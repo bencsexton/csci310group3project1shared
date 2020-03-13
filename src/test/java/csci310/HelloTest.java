@@ -6,10 +6,9 @@ import org.junit.Test;
 
 public class HelloTest {
 
-	@Test
-	public void testGreeting() {
-		Hello h = new Hello();
-		Assert.assertEquals(h.greet("test"), "Hello test");
-	}
-
+    @Test
+    public void testGreeting() {
+        Hello h = new Hello();
+        Assert.assertEquals(h.greet("test"), "Hello test");
+    }
 }

@@ -1,16 +1,16 @@
-package csci310;
+package csci310.model;
 
 import java.util.Date;
 
 public class SearchForecast {
-	private static String location;
-	private static Date date;
-	private static float temp;
+	private String location;
+	private Date date;
+	private float temp;
 	
-	public SearchForecast(String _location, Date _date, float _temp) {
-		location = _location;
-		date = _date;
-		temp = _temp;
+	public SearchForecast(String location, Date date, float temp) {
+		this.location = location;
+		this.date = date;
+		this.temp = temp;
 	}
 	
 	public float getTemperatureRange() {

@@ -8,10 +8,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.*;
+
+import csci310.model.AnalysisForecast;
+import csci310.model.FutureForecast;
+import csci310.model.SearchForecast;
+import csci310.model.WeatherHistory;
 
 public class WeatherAPIConnector {
 	private static HttpURLConnection connection;
@@ -36,6 +43,7 @@ public class WeatherAPIConnector {
 		System.out.println(sf.getLocation());
 		System.out.println(sf.getTemperatureRange());
 		System.out.println(formatDate(sf.getDate()));
+		Date d = getDateFromString(getCurrentDate());
 	}
 	
 	// Turns location/city name into latitude and longitude as input for API calls
@@ -148,13 +156,12 @@ public class WeatherAPIConnector {
 	//   city name
 	//   country name
 	//   avgMaxTemp
-	//   avgMinTemp
-	//   distance
 	//
 	public static SearchForecast getSearchForecast(String location, String dateString) {
 		location = capitalize(location);
 		String latlong = getLatLong(location);
-		JsonElement jeLatLong = JsonParser.parseString(latlong);
+		JsonParser parser = new JsonParser();
+		JsonElement jeLatLong = parser.parse(latlong);
 		String currentWeatherData = "";
 		JsonObject joLatLong;
 		Date filler = new Date(0);
@@ -172,7 +179,7 @@ public class WeatherAPIConnector {
 			String latitude = joLatLong.get("lat").getAsString();
 			String longitude = joLatLong.get("lon").getAsString();
 			currentWeatherData = makeSearch(dateString, latitude, longitude);
-			JsonObject joWeatherData = JsonParser.parseString(currentWeatherData).getAsJsonObject();
+			JsonObject joWeatherData = parser.parse(currentWeatherData).getAsJsonObject();
 			JsonObject joCurrently = joWeatherData.get("currently").getAsJsonObject();
 			float temp = joCurrently.get("temperature").getAsFloat();
 			Date date = getDateFromString(dateString);
@@ -191,17 +198,40 @@ public class WeatherAPIConnector {
 	//   avgMinTemp
 	//   distance
 	//
-	public static String getAnalysisForecast(String location) {
+	public static AnalysisForecast getAnalysisForecast(String location) {
+		location = capitalize(location);
+		String dateString = getCurrentDate();
 		String latlong = getLatLong(location);
-		String date = getCurrentDate();
-		JsonElement je = JsonParser.parseString(latlong);
-		JsonArray ja = je.getAsJsonArray();
-		JsonObject jo = (JsonObject) ja.get(0);
+		JsonParser parser = new JsonParser();
+		JsonElement jeLatLong = parser.parse(latlong);
+		String currentWeatherData = "";
+		JsonObject joLatLong;
+		Date filler = new Date(0);
+		List<FutureForecast> n5D = new ArrayList<FutureForecast>();
+		List<WeatherHistory> hTs = new ArrayList<WeatherHistory>();
+		AnalysisForecast af = new AnalysisForecast("error",filler,0,n5D,hTs);
+		try {
+			joLatLong = (JsonObject) jeLatLong.getAsJsonObject();
+			String error = joLatLong.get("error").getAsString();
+			if(error != null) {
+				currentWeatherData = "{ \"errorMsg\": \"Location not found\" }";
+			}
+		} catch(IllegalStateException ise) {
+			JsonArray jaLatLong = jeLatLong.getAsJsonArray();
+			joLatLong = (JsonObject) jaLatLong.get(0);
+			
+			String latitude = joLatLong.get("lat").getAsString();
+			String longitude = joLatLong.get("lon").getAsString();
+			currentWeatherData = makeSearch(dateString, latitude, longitude);
+			JsonObject joWeatherData = parser.parse(currentWeatherData).getAsJsonObject();
+			JsonObject joCurrently = joWeatherData.get("currently").getAsJsonObject();
+			float temp = joCurrently.get("temperature").getAsFloat();
+			Date date = getDateFromString(dateString);
+			
+			af = new AnalysisForecast(location,date,temp, n5D, hTs);
+		}
 		
-		String latitude = jo.get("lat").getAsString();
-		String longitude = jo.get("lon").getAsString();
-		String currentweatherdata = makeSearch(date, latitude, longitude);
-		return latlong;
+		return af;
 	}
 	
 	/*

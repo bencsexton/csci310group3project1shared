@@ -26,28 +26,45 @@ function showErrors(errors, resultsTable){
 function createTableHeader(resultsTable, tableHeaders){
 	const thead = $("<thead></thead>");
 	for(let header of tableHeaders){
-		thead.append("<th for=\"col\">"+  header +"</th>");
+		thead.append("<th class='header' for=\"col\">"+  header +"</th>");
 	}
-	const dist = $('<th id="distance">Distance</th>');
+	const dist = $('<th class="header" id="distance">Distance</th>');
 	initDistanceSort(dist, tableDatas, resultsTable);
 	thead.append(dist);
 	thead.append("<th></th>");
 	resultsTable.append(thead);
 }
 
+function makeAddToFavoritesBtn(button, id){
+	button.text("Add to favorites");
+	button.on('click', function(){
+		makeRemoveFromFavoritesBtn(button, id);
+		$.post({
+			url: "/api/favorites/add/" + id
+		});
+	});
+}
+
+function makeRemoveFromFavoritesBtn(button, id){
+	button.text("Remove from favorites");
+	button.on('click', function(){
+		makeAddToFavoritesBtn(button, id);
+		$.post({
+			url: "/api/favorites/remove/" + id
+		});
+	});
+}
+
 function makeFavButton(favorite, id){
-	const a = $("<a></a>");
+	// const a = $("<a></a>");
 	const button = $('<button class="btn btn-outline-secondary fav-btn"></button>');
 	if(favorite){
-		a.attr('href', "/api/favorites/remove/" + id);
-		button.text("Remove from favorites");
+		makeAddToFavoritesBtn(button, id);
 	}
 	else{
-		a.attr('href', "/api/favorites/add/" + id);
-		button.text("Add to favorites");
+		makeRemoveFromFavoritesBtn(button, id);
 	}
-	a.append(button);
-	return a;
+	return button;
 }
 
 // order = 'asc'|'desc'
