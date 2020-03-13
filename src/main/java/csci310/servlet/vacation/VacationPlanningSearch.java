@@ -19,7 +19,7 @@ import java.util.HashSet;
 //@WebServlet(name = "VacationPlanningSearch", urlPatterns = { "/api/vacationPlanning/search" })
 public class VacationPlanningSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String paramNames[] = {"tempRangeLow", "tempRangeHigh", "numResults", "location"};
+	private static final String paramNames[] = {"tempRangeLow", "tempRangeHigh", "numResults", "location", "precipitation"};
 //	private static final String[] parameters = {"tempRangeLow", "tempRangeHigh"};
        
     /**
@@ -41,7 +41,7 @@ public class VacationPlanningSearch extends HttpServlet {
 			params.add(request.getParameter(param).trim());
 		}
 		HashSet<String> errors = new HashSet<String>();
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < 5; i++) {
 			if (params.get(i).isEmpty()) {
 				errors.add(paramNames[i]);
 			}

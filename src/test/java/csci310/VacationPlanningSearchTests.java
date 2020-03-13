@@ -65,7 +65,7 @@ public class VacationPlanningSearchTests {
         PrintWriter pw = new PrintWriter(sw);
         when(response.getWriter()).thenReturn(pw);
 
-        String params[] = {"tempRangeLow", "tempRangeHigh", "numResults", "location"};
+        String params[] = {"tempRangeLow", "tempRangeHigh", "numResults", "location", "precipitation"};
         for(String p : params) {
         	when(request.getParameter(p)).thenReturn("");
         }
@@ -84,6 +84,7 @@ public class VacationPlanningSearchTests {
         errors.add("tempRangeHigh");
         errors.add("numResults");
         errors.add("location");
+        errors.add("precipitation");
         Assert.assertEquals(errors, responseErrorSet);
     }
     @Test
@@ -96,6 +97,7 @@ public class VacationPlanningSearchTests {
         when(request.getParameter("tempRangeHigh")).thenReturn("42");
         when(request.getParameter("numResults")).thenReturn("5");
         when(request.getParameter("location")).thenReturn("Las Vegas");
+        when(request.getParameter("precipitation")).thenReturn("rain");
         
         (new VacationPlanningSearch()).doGet(request, response);
 
@@ -121,6 +123,7 @@ public class VacationPlanningSearchTests {
         when(request.getParameter("tempRangeHigh")).thenReturn("43");
         when(request.getParameter("numResults")).thenReturn("");
         when(request.getParameter("location")).thenReturn("Las Vegas");
+        when(request.getParameter("precipitation")).thenReturn("rain");
         
         (new VacationPlanningSearch()).doGet(request, response);
 
@@ -145,6 +148,7 @@ public class VacationPlanningSearchTests {
         when(request.getParameter("tempRangeHigh")).thenReturn("43");
         when(request.getParameter("numResults")).thenReturn("fish food");
         when(request.getParameter("location")).thenReturn("Las Vegas");
+        when(request.getParameter("precipitation")).thenReturn("rain");
         
         (new VacationPlanningSearch()).doGet(request, response);
 
@@ -169,6 +173,7 @@ public class VacationPlanningSearchTests {
         when(request.getParameter("tempRangeHigh")).thenReturn("43");
         when(request.getParameter("numResults")).thenReturn("-100");
         when(request.getParameter("location")).thenReturn("Las Vegas");
+        when(request.getParameter("precipitation")).thenReturn("rain");
         
         (new VacationPlanningSearch()).doGet(request, response);
 
