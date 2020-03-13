@@ -5,7 +5,7 @@ $(document).ready(function() {
 });
 
 function loadFavorites() {
-    const endpoint = "http://127.0.0.1:5000/api/favorites/list";
+    const endpoint = "http://localhost:5000/api/favorites/list";
     $.getJSON(endpoint, function(results) {
         console.log(results);
         const favorites = results.favorites;
@@ -30,82 +30,106 @@ function displayFavorites(favorites) {
         let p1 = $('<p>').text(location.city);
         let p2 = $('<p>').text(location.country);
         let div1 = $('<div>').addClass('list-item-city').append(p1);
-        let div2 = $('<div>').addClass('list-item-country').append(p2);    
+        let div2 = $('<div>').addClass('list-item-country').append(p2);
         let a = $('<a>')
             .addClass('list-group-item')
             .addClass('list-group-item-action')
-            .attr("data-location-id", location.id)
-//            .attr('href', '#')
+            //            .attr("data-location-id", location.id)
+            .attr("city", location.city)
+            .attr("country", location.country)
+            //            .attr('href', '#')
             .append(div1, div2);
         favoritesDiv.append(a);
     }
-    
+
     handleCitySelection();
     handleRemoveFromFavoritesButton();
 }
 
 function handleCitySelection() {
-    $('a').click(function() {        
+    $('a').click(function() {
         $('a.list-group-item.active').removeClass('active');
         $(this).addClass('active');
-        
+
         const locationId = $(this).data('location-id');
         getWeatherData(locationId)
-    });    
-}
-
-function handleRemoveFromFavoritesButton() {
-    $('#remove-from-favorites-button').click(function() {
-        const selectedCity = $('a.list-group-item.active').data('city');
-        $("#dialog-selected-city").text(selectedCity);
-        
-        $("#dialog-confirm").dialog({
-            resizable: false,
-            height: "auto",
-            width: 400,
-            modal: true,
-            buttons: {
-                "Yes": removeCityFromFavorites,
-                "Cancel": function() {
-                    $(this).dialog("close");
-                    $("#dialog-confirm").data('displayed', 'false');
-                }
-            }
-        });
-        $("#dialog-confirm").data('displayed', 'true');
     });
 }
-                
+
+//function handleRemoveFromFavoritesButton() {
+//    $('#remove-from-favorites-button').click(function() {
+//        const selectedCity = $('a.list-group-item.active').data('city');
+//        $("#dialog-selected-city").text(selectedCity);
+//
+//        $("#dialog-confirm").dialog({
+//            resizable: false,
+//            height: "auto",
+//            width: 400,
+//            modal: true,
+//            buttons: {
+//                "Yes": removeCityFromFavorites,
+//                "Cancel": function() {
+//                    $(this).dialog("close");
+//                    $("#dialog-confirm").data('displayed', 'false');
+//                }
+//            }
+//        });
+//        $("#dialog-confirm").data('displayed', 'true');
+//    });
+//}
+function handleRemoveFromFavoritesButton() {
+    $('#remove-from-favorites-button').click(function() {
+        if ($('a.list-group-item.active').length) {
+            const selectedCity = $('a.list-group-item.active').attr('city');
+            $("#dialog-selected-city").text(selectedCity);
+
+            $("#dialog-confirm").attr('displayed', 'true');
+            $("#dialog-confirm").css('display', 'flex');
+            $("#dialog-yes").click(removeCityFromFavorites);
+            $("#dialog-cancel").click(function() {
+                $("#dialog-confirm").attr('displayed', 'false');
+                $("#dialog-confirm").css('display', 'none');
+            });
+        }
+        else {
+            alert("There is no city currently selected.")
+        }
+    });
+}
+
 function removeCityFromFavorites() {
-    const endpoint = "http://127.0.0.1:5000/api/favorites/remove";
-    
+    const endpoint = "http://localhost:5000/api/favorites/remove";
+
     let params = {
-        'city' : $('a.list-group-item.active').data('city'),
-        'country' : $('a.list-group-item.active').data('country')
-    };      
-    $.post(endpoint, params)
-        .done(function() {
+        'city' : $('a.list-group-item.active').attr('city'),
+        'country' : $('a.list-group-item.active').attr('country')
+    };
+//    $.post(endpoint, params)
+//        .done(function() {
 
-            // remove the city from the list    
-            $('a.list-group-item.active').remove();
+    // remove the city from the list
+    $('a.list-group-item.active').remove();
 
-            // remove the weather analysis and photo area
-            removeCurrentWeatherArea();
-            $('.forecast').remove();
-            $('.historic').remove();
-            $('#photo-section').empty()
+    // remove the weather analysis and photo area
+    removeCurrentWeatherArea();
+    $('.forecast').remove();
+    $('.historic').remove();
+    $('#photo-section').empty()
 
-            // if it was the last item
-            if ($('a').size() == 0) {
-                $('.list-group-no-items').show();
-                $('.list-buttons').hide();
-                $('.onoffswitch').hide();
-            }
-        })
-        .fail(function() {
-            alert("There was an error while removing the city from the favorite cities list.");
-        });
-    $("#dialog-confirm").data('displayed', 'false');
+    console.log($('a').length);
+    // if it was the last item
+    //if ($('a').size() == 0) {
+    if ($('a').length == 0) {
+        $('.list-group-no-items').show();
+        $('.list-buttons').hide();
+        $('.onoffswitch').hide();
+    }
+//        })
+//        .fail(function() {
+//            alert("There was an error while removing the city from the favorite cities list.");
+//        });
+    $("#dialog-confirm").attr('displayed', 'false');
+    $("#dialog-confirm").css('display', 'none');
 }
 
 function removeCurrentWeatherArea() {
@@ -120,10 +144,10 @@ function removeCurrentWeatherArea() {
 }
 
 function getWeatherData(locationId) {
-    const endpoint = 'http://127.0.0.1:5000/api/weather-analysis/data?location-id=' + locationId + '&unit=' + tempUnit;
+    const endpoint = 'http://localhost:5000/api/weather-analysis/data?location-id=' + locationId + '&unit=' + tempUnit;
     $.getJSON(endpoint, function(results) {
         console.log(results);
-        displayWeatherData(results);        
+        displayWeatherData(results);
     });
 }
 
@@ -131,12 +155,12 @@ function displayWeatherData(results) {
     displayCurrentWeather(results.current);
     displayForecast(results.forecast);
     displayHistoricData(results.historic);
-    displayCityImage(results.images);    
+    displayCityImage(results.images);
 }
 
 function displayCurrentWeather(current) {
     $('#current-city-val').text(current.city + ', ' + current.country);
-    $('#current-splitter-val').text('|');    
+    $('#current-splitter-val').text('|');
     $('#current-date-val').text(current.date);
     //TODO: icon
     $('#current-icon-val').addClass('wi-night-sleet');
@@ -149,25 +173,25 @@ function displayForecast(forecast) {
         $('.forecast').remove();
     }
     let parent = $('<div>')
-            .addClass('forecast')            
-            .appendTo('#weather-section');
+        .addClass('forecast')
+        .appendTo('#weather-section');
     for (let f of forecast) {
         let p1 = $('<p>').text(f.date);
         let p2 = $('<p>').text(f.max_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
         let p3 = $('<p>').text(f.min_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
         // TODO: icon
         let i1 = $('<i>').addClass('wi').addClass('wi-night-sleet');
-        
+
         let div1 = $('<div>').addClass('forecast-date').append(p1);
         let div2 = $('<div>').addClass('forecast-icon').append(i1);
-        let div3 = $('<div>').addClass('forecast-high').append(p2);        
+        let div3 = $('<div>').addClass('forecast-high').append(p2);
         let div4 = $('<div>').addClass('forecast-low').append(p3);
-        
+
         let div = $('<div>')
             .addClass('forecast-col')
             .append(div1, div2, div3, div4)
             .appendTo(parent);
-    }    
+    }
 }
 
 function displayHistoricData(historic) {
@@ -175,18 +199,18 @@ function displayHistoricData(historic) {
         $('.historic').remove();
     }
     let parent = $('<div>')
-                .addClass('historic')
-                .appendTo('#weather-section');
+        .addClass('historic')
+        .appendTo('#weather-section');
     $('<div>').addClass('col-12')
-            .attr('id', 'historic-chart')
-            .appendTo('.historic');
+        .attr('id', 'historic-chart')
+        .appendTo('.historic');
     $('<div>').addClass('card')
-            .appendTo('#historic-chart');
+        .appendTo('#historic-chart');
     $('<div>').addClass('card-body')
-            .appendTo('.card');
+        .appendTo('.card');
     $('<canvas>').attr('id', 'chLine')
-            .appendTo('.card-body');
-    drawChart(historic);    
+        .appendTo('.card-body');
+    drawChart(historic);
 }
 
 function drawChart(historic) {
@@ -197,19 +221,19 @@ function drawChart(historic) {
             data: {
                 labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                 datasets: [{
-                data: historic.highs,
-                backgroundColor: 'transparent',
-                borderColor: '#f57b51',
-                borderWidth: 4,
-                pointBackgroundColor: '#f57b51'
+                    data: historic.highs,
+                    backgroundColor: 'transparent',
+                    borderColor: '#f57b51',
+                    borderWidth: 4,
+                    pointBackgroundColor: '#f57b51'
                 },
-                {
-                data: historic.lows,
-                backgroundColor: 'transparent',
-                borderColor: '#98d6ea',
-                borderWidth: 4,
-                pointBackgroundColor: '#98d6ea'
-                }]
+                    {
+                        data: historic.lows,
+                        backgroundColor: 'transparent',
+                        borderColor: '#98d6ea',
+                        borderWidth: 4,
+                        pointBackgroundColor: '#98d6ea'
+                    }]
             },
             options: {
                 scales: {
@@ -240,7 +264,7 @@ function drawChart(historic) {
     }
 }
 
-function displayCityImage(images) {    
+function displayCityImage(images) {
     if ($('#photo-section').length) {
         $('#photo-section').empty();
     }
@@ -249,7 +273,7 @@ function displayCityImage(images) {
             .addClass('city-photo')
             .attr('src', url)
             .css('display', 'none')
-            .appendTo($('#photo-section'));    
+            .appendTo($('#photo-section'));
     }
     slideshow();
 }
@@ -258,14 +282,16 @@ var slideIndex = 0;
 function slideshow()
 {
     const slides = $(".city-photo");
-    for (let slide of slides) {
-        slide.style.display = 'none';
+    if (slides.length > 0) {
+        for (let slide of slides) {
+            slide.style.display = 'none';
+        }
+        ++slideIndex;
+        if (slideIndex > slides.length) {
+            slideIndex = 1;
+        }
+        slides[slideIndex-1].style.display = 'block';
+        setTimeout(slideshow, 7000);
     }
-    ++slideIndex;
-    if (slideIndex > slides.length) {
-        slideIndex = 1;
-    }
-    slides[slideIndex-1].style.display = 'block';
-    setTimeout(slideshow, 7000);
 }
 
