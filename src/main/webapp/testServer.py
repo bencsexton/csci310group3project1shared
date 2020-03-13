@@ -46,6 +46,8 @@ def vacaSearch():
 
 	if not r['numResults'].isdigit():
 		errors.add('numResults')
+	elif int(r['numResults']) < 0:
+		errors.add('numResults')
 
 	if errors:
 		response['success'] = False
@@ -98,6 +100,11 @@ def activitySearch():
 	if r['location'] == 'nowhere':
 		return 'todo'
 
+	if not r['numResults'].isdigit():
+		errors.add('numResults')
+	elif int(r['numResults']) < 0:
+		errors.add('numResults')
+		
 	if errors:
 		response['success'] = False
 		response['errors'] = list(errors)
@@ -122,4 +129,4 @@ def getActivities():
 	return jsonify(response)
 
 if __name__ == '__main__':
-	app.run(debug=True, port=8080)
+	app.run(debug=True, port=7890)

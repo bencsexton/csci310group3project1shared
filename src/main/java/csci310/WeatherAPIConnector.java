@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.google.gson.*;
+import csci310.model.SearchForecast;
 
 public class WeatherAPIConnector {
 	private static HttpURLConnection connection;
@@ -152,7 +153,8 @@ public class WeatherAPIConnector {
 	public static SearchForecast getSearchForecast(String location, String dateString) {
 		location = capitalize(location);
 		String latlong = getLatLong(location);
-		JsonElement jeLatLong = JsonParser.parseString(latlong);
+		JsonParser parser = new JsonParser();
+		JsonElement jeLatLong = parser.parse(latlong);
 		String currentWeatherData = "";
 		JsonObject joLatLong;
 		Date filler = new Date(0);
@@ -170,7 +172,7 @@ public class WeatherAPIConnector {
 			String latitude = joLatLong.get("lat").getAsString();
 			String longitude = joLatLong.get("lon").getAsString();
 			currentWeatherData = makeSearch(dateString, latitude, longitude);
-			JsonObject joWeatherData = JsonParser.parseString(currentWeatherData).getAsJsonObject();
+			JsonObject joWeatherData = parser.parse(currentWeatherData).getAsJsonObject();
 			JsonObject joCurrently = joWeatherData.get("currently").getAsJsonObject();
 			float temp = joCurrently.get("temperature").getAsFloat();
 			Date date = getDateFromString(dateString);
@@ -192,7 +194,8 @@ public class WeatherAPIConnector {
 	public static String getAnalysisForecast(String location) {
 		String latlong = getLatLong(location);
 		String date = getCurrentDate();
-		JsonElement je = JsonParser.parseString(latlong);
+		JsonParser parser = new JsonParser();
+		JsonElement je = parser.parse(latlong);
 		JsonArray ja = je.getAsJsonArray();
 		JsonObject jo = (JsonObject) ja.get(0);
 		

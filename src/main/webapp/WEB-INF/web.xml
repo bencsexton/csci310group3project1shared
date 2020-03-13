@@ -4,4 +4,41 @@
 
 <web-app>
   <display-name>WeatherPlanning</display-name>
+  <servlet>
+    <servlet-name>HelloServlet</servlet-name>
+    <servlet-class>csci310.servlet.HelloServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FavoritesListServlet</servlet-name>
+    <servlet-class>csci310.servlet.favorites.FavoritesListServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FavoritesAddServlet</servlet-name>
+    <servlet-class>csci310.servlet.favorites.FavoritesAddServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FavoritesRemoveServlet</servlet-name>
+    <servlet-class>csci310.servlet.favorites.FavoritesRemoveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloServlet</servlet-name>
+    <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FavoritesListServlet</servlet-name>
+    <url-pattern>/api/favorites/list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FavoritesAddServlet</servlet-name>
+    <url-pattern>/api/favorites/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FavoritesRemoveServlet</servlet-name>
+    <url-pattern>/api/favorites/remove</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>
+      30
+    </session-timeout>
+  </session-config>
 </web-app>
