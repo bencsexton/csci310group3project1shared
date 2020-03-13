@@ -21,19 +21,27 @@ public class FavoritesRemoveServlet extends HttpServlet {
         try {
             // handle POST request
             JsonObject postBody = ServletUtils.readPostBodyAsJson(req.getReader());
-            String cityId = postBody.getAsJsonPrimitive("cityId").getAsString();
-            HashSet<String> favorites = (HashSet<String>) session.getAttribute("favorites");
+
+            JsonObject favEntry = new JsonObject();
+            String city = postBody.getAsJsonPrimitive("city").getAsString();
+            String country = postBody.getAsJsonPrimitive("country").getAsString();
+            if (city == null || country == null) {
+                resp.setStatus(400); // Bad request
+                return;
+            }
+
+            favEntry.addProperty("city", city);
+            favEntry.addProperty("country", country);
+            HashSet<JsonObject> favorites = (HashSet<JsonObject>) session.getAttribute("favorites");
             if (favorites == null) { // If session not yet initialized
                 favorites = new HashSet<>();
                 session.setAttribute("favorites", favorites);
-                return; // Can instantly return, no removal necessary
             }
-            favorites.remove(cityId);
+            favorites.remove(favEntry);
             // Implicitly returns 200 status
         } catch (IllegalStateException | ClassCastException | NullPointerException e) {
             resp.setStatus(400);
         }
-
     }
 
 }

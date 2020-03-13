@@ -23,15 +23,15 @@ public class FavoritesListServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         try {
-            HashSet<String> favorites = (HashSet<String>) session.getAttribute("favorites");
+            HashSet<JsonObject> favorites = (HashSet<JsonObject>) session.getAttribute("favorites");
             if (favorites == null) { // If session not yet initialized
                 favorites = new HashSet<>();
                 session.setAttribute("favorites", favorites);
             }
             JsonObject response = new JsonObject();
             response.add("favorites", new JsonArray());
-            for (String fav : favorites) {
-                response.getAsJsonArray("favorites").add(new JsonPrimitive(fav));
+            for (JsonObject fav : favorites) {
+                response.getAsJsonArray("favorites").add(fav);
             }
 
             resp.getWriter().write(response.toString());
