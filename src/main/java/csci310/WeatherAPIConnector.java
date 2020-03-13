@@ -148,8 +148,6 @@ public class WeatherAPIConnector {
 	//   city name
 	//   country name
 	//   avgMaxTemp
-	//   avgMinTemp
-	//   distance
 	//
 	public static SearchForecast getSearchForecast(String location, String dateString) {
 		location = capitalize(location);
