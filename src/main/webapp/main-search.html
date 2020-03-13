@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+ <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Search Page</title>
+    <link rel="stylesheet" type="text/css" href="css/main-search.css">
+</head>
+<script src="main-search.js"></script>
+<script>
+    function loadPage() {
+        document.getElementById("locationText").focus();
+    }
+    
+    function clearInput() {
+        document.getElementById("locationText").placeholder = "";
+    }
+</script>
+<body onload="loadPage()">
+    <div id="weatherDisplayArea">
+        <p>
+            <label id="currLocation">Los Angeles, CA </label>
+            <label id="currDate">| Mar 10, 2020</label>
+        </p>
+        <p>
+            <img name="icon" src="smiley.gif" height="42" width="42">
+            <label id="currTemperature">64</label>
+            <label id="units">°F</label>
+        </p>
+        <p><label id="currDescription">Sunny</label></p>
+    </div>
+
+    <form>
+        <p><input type="text" id="locationText" name="locationText" placeholder="Enter location (city or zip)" oninput="clearText()"><br><br></p>
+        <p style="margin-left: -140px; margin-top: -10px; margin-bottom: -10px; font-size: 11px">°C&nbsp;&nbsp;&nbsp;°F</p>
+        <p>
+            <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+            </label>
+            <input id="submitButton" type="submit" value="Show me the weather">
+        </p>
+    </form>
+</body>  
+<footer>
+    <div class="navbar">
+        <a href="#home"class="active">
+            <img name="icon" src="img/home.png" height="60" width="60">
+        </a>
+        <a href="#vacation"class="active">
+            <img name="icon" src="img/vacation.png" height="60" width="60">
+        </a>
+        <a href="#activity"class="active">
+            <img name="icon" src="img/activity.png" height="60" width="60">
+        </a>
+        <a href="#analysis"class="active">
+            <img name="icon" src="img/analysis.png" height="60" width="60">
+        </a>
+        
+    </div>
+</footer>   
+</html>
