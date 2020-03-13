@@ -26,7 +26,7 @@ public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private static final String paramNames[] = {"location"};
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HashMap<String, Object> responseObject = new HashMap<String, Object>();
 		ArrayList<String> params = new ArrayList<String>();
 		for(String param : paramNames) {
@@ -42,7 +42,7 @@ public class SearchServlet extends HttpServlet {
 		SearchForecast sf = new SearchForecast("",filler,0,"","");
 		if (!params.get(0).isEmpty()) {
 			sf = WeatherAPIConnector.getSearchForecast(params.get(0),WeatherAPIConnector.getCurrentDate());
-			if(sf.getLocation().contentEquals("")) {
+			if(sf.getLocation().contentEquals("") || sf.getLocation().contentEquals("error")) {
 				errors.add(paramNames[0]);
 			}
 		}
