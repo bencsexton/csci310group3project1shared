@@ -25,7 +25,7 @@ public class ModelTests {
 
     @Test
     public void testSearchForecast() {
-        SearchForecast sf = new SearchForecast("San Francisco", new Date(1584050886L), 86.5f);
+        SearchForecast sf = new SearchForecast("San Francisco", new Date(1584050886L), 86.5f, "Description", "iconpath");
         Assert.assertEquals(1584050886L, sf.getDate().getTime());
         Assert.assertEquals("San Francisco", sf.getLocation());
         Assert.assertEquals(86.5f, sf.getTemperatureRange(), 1E-7);
@@ -60,7 +60,7 @@ public class ModelTests {
                 new FutureForecast(new Date(1584050887L), 84.5f, 82.5f, "Description2", "iconpath2")
         ));
 
-        AnalysisForecast af = new AnalysisForecast("San Francisco", new Date(1584050886L), 86.5f, futureForecasts, histories);
+        AnalysisForecast af = new AnalysisForecast("San Francisco", new Date(1584050886L), 86.5f, futureForecasts, histories, "Description", "iconpath");
         Assert.assertEquals(1584050886L, af.getDate().getTime());
         Assert.assertEquals("San Francisco", af.getLocation());
         Assert.assertEquals(86.5f, af.getTemperatureRange(), 1E-7);
