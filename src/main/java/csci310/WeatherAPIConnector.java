@@ -153,7 +153,7 @@ public class WeatherAPIConnector {
 		
 		// make filler SearchForecast in case of error
 		Date filler = new Date(0);
-		SearchForecast sf = new SearchForecast("error",filler,0);
+		SearchForecast sf = new SearchForecast("error",filler,0,"","");
 		try {
 			// an incredibly roundabout way of checking if the city/zip is found
 			joLatLong =  jeLatLong.getAsJsonObject();
@@ -176,11 +176,13 @@ public class WeatherAPIConnector {
 			
 			// enter 'currently'
 			JsonObject joCurrently = joWeatherData.get("currently").getAsJsonObject();
+			String desc = joCurrently.get("summary").getAsString();
+			String icon = joCurrently.get("icon").getAsString();
 			float temp = joCurrently.get("temperature").getAsFloat();
 			Date date = getDateFromString(dateString);
 			
 			// create new searchforecast
-			sf = new SearchForecast(location,date,temp);
+			sf = new SearchForecast(location,date,temp,desc,icon);
 		}
 		
 		return sf;
@@ -200,7 +202,7 @@ public class WeatherAPIConnector {
 		Date filler = new Date(0);
 		List<FutureForecast> n5D = new ArrayList<FutureForecast>();
 		List<WeatherHistory> hTs = new ArrayList<WeatherHistory>();
-		AnalysisForecast af = new AnalysisForecast("error",filler,0,n5D,hTs);
+		AnalysisForecast af = new AnalysisForecast("error",filler,0,n5D,hTs, "", "");
 		
 		try {
 			// an incredibly roundabout way of checking if the city/zip is found
@@ -223,6 +225,8 @@ public class WeatherAPIConnector {
 			currentWeatherData = makeSearch(dateString, latitude, longitude);
 			JsonObject joWeatherData = parser.parse(currentWeatherData).getAsJsonObject();
 			JsonObject joCurrently = joWeatherData.get("currently").getAsJsonObject();
+			String desc = joCurrently.get("summary").getAsString();
+			String icon = joCurrently.get("icon").getAsString();
 			currentTemp = joCurrently.get("temperature").getAsFloat();
 			
 			//iterate 5 times for 5 day forecast
@@ -240,7 +244,7 @@ public class WeatherAPIConnector {
 			
 			// get current date and create analysisforecast
 			Date currentDate = getDateFromString(getCurrentDate());
-			af = new AnalysisForecast(location,currentDate,currentTemp, n5D, hTs);
+			af = new AnalysisForecast(location,currentDate,currentTemp, n5D, hTs, desc, icon);
 		}
 		
 		return af;
