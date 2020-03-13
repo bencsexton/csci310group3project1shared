@@ -3,11 +3,11 @@ Feature: Weather Analysis
   Scenario: AIP1 - Favorite cities list: Empty favorite cities list shows a blank list with no button and unit changer
     Given I am on the Weather Analysis page
     And The favorite cities list has no item
-    Then I should see a text "Currently, there is no city in your favorites list." in "list-group-no-items"
-    And I should not see "remove-from-favorites-button" element
-    And I should not see "unit-changer" element
+    Then AIP: I should see "Currently, there is no city in your favorites list." text in "list-group-no-items"
+    And AIP: I should not see "remove-from-favorites-button" element
+    And AIP: I should not see "unit-changer" element
 
-  Scenario: AIP2 - 1.a. Favorite cities list: User can select a city from the favorite cities list area by left-clicking on the city’s name
+  Scenario: AIP2 - 1.a. Favorite cities list: User can select a city from the favorite cities list area by left-clicking on the city's name
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
@@ -17,7 +17,7 @@ Feature: Weather Analysis
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then The weather information for the city should be displayed in the weather analysis area
+    Then I should see The weather information for the city should be displayed in the weather analysis area
 
   Scenario: AIP4 - 1.c. Clicking on a city displays images in city image area
     Given I am on the Weather Analysis page
