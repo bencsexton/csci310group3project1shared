@@ -1,9 +1,13 @@
 package csci310.servlet.activity;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import csci310.WeatherAPIConnector;
 
 /**
  * Servlet implementation class ActivityPlanningSearch
@@ -64,6 +73,52 @@ public class ActivityPlanningSearch extends HttpServlet {
 		if(errorList.size() > 0) {
 			responseObject.put("success", false);
 			responseObject.put("errors", errorList);
+		}
+		else {
+			// valid
+			responseObject.put("success", true);
+			String currentLocation = params.get(2);
+			// get lat/long of current city - currentLocation 
+			JsonParser parser = new JsonParser();
+			String jsonResult = WeatherAPIConnector.getLatLong(params.get(2));
+			JsonArray jaLatLong = parser.parse(jsonResult).getAsJsonArray();
+			JsonObject joLatLong =  jaLatLong.get(0).getAsJsonObject();
+			double a_lat = joLatLong.get("lat").getAsDouble();
+			double a_lon = joLatLong.get("lon").getAsDouble();
+			
+			
+			String filename = "\\src\\test\\java\\csci310\\cities.txt";
+			File file = new File(filename); 
+			List<String> cityList = new ArrayList<String>();
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(file)); 
+				  
+				String st = "";
+				br.readLine();
+				st = br.readLine();
+				
+				while ((st = br.readLine()) != null) {
+					String[] spl = st.split(",");
+					String city = spl[0];
+					cityList.add(city);
+				}
+			}
+			catch(IOException e) {
+				System.out.println(e);
+			}
+			for(String city : cityList) {
+				jsonResult = WeatherAPIConnector.getLatLong(city);
+				jaLatLong = parser.parse(jsonResult).getAsJsonArray();
+				joLatLong =  jaLatLong.get(0).getAsJsonObject();
+				double b_lat = joLatLong.get("lat").getAsDouble();
+				double b_lon = joLatLong.get("lon").getAsDouble();
+				
+				/* a_lat/a_lon is the center cities' coords
+				 * b_lat/b_lon is test cities' coords, the one we want distance of 
+				 * I don't know what you want to do with this distance
+				 */
+				double d = WeatherAPIConnector.haversineDistance(a_lat, a_lon, b_lat, b_lon);
+			}
 		}
 		
 		Gson gson = new Gson();
