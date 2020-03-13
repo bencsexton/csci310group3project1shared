@@ -246,7 +246,7 @@ html, body, .row, .col {
     bottom: 0;
     width: 100%;
     text-align: center;
-    position: fixed;
+    position: relative;
     overflow: hidden;
     margin-bottom: 40px;
 }

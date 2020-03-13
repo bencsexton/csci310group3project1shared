@@ -19,6 +19,7 @@ initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders, tableDat
 // initDistanceSort(distanceHeader, tableDatas, resultsTable);
 
 function initializeAutocomplete(response){
+	console.log(response);
 	$( function() {
 		activityInput.autocomplete({
 			source: response.activities

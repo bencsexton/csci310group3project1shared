@@ -40,11 +40,13 @@ function initializeToggle(toggleSelector, units, resultsTable, tableHeaders, tab
 			tempUnits = 'C';
 			locations = locationsC;
 		}
+		let data = {
+				tempUnits: tempUnits
+			};
+		data = JSON.stringify(data);
 		$.post({
 			url: "/api/temperature",
-			data: {
-				tempUnits: tempUnits
-			}
+			data: data
 		})
 		if(rowArray != null){
 			displayResults(locations, resultsTable, tableHeaders, tableDatas);
