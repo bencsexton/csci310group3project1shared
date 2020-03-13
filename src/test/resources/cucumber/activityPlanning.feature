@@ -1,4 +1,4 @@
-Feature: Vacation Planning
+Feature: Activity Planning
  	Scenario: check that all inputs on the search form exist
  		Given I am on the Activity Planning page
  		Then I should see a text box 'activity'

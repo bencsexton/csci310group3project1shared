@@ -28,6 +28,18 @@
   	<servlet-name>VacationPlanningSearch</servlet-name>
   	<servlet-class>csci310.servlet.vacation.VacationPlanningSearch</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ActivityPlanningActivities</servlet-name>
+  	<display-name>ActivityPlanningActivities</display-name>
+  	<description></description>
+  	<servlet-class>csci310.servlet.activity.ActivityPlanningActivities</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ActivityPlanningSearch</servlet-name>
+  	<display-name>ActivityPlanningSearch</display-name>
+  	<description></description>
+  	<servlet-class>csci310.servlet.activity.ActivityPlanningSearch</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>HelloServlet</servlet-name>
     <url-pattern>/hello</url-pattern>
@@ -51,6 +63,14 @@
   <servlet-mapping>
   	<servlet-name>VacationPlanningSearch</servlet-name>
   	<url-pattern>/api/vacationPlanning/search</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ActivityPlanningActivities</servlet-name>
+  	<url-pattern>/api/activityPlanning/activities</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ActivityPlanningSearch</servlet-name>
+  	<url-pattern>/api/activityPlanning/search</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>
