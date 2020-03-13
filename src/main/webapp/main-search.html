@@ -7,7 +7,6 @@
 </head>
 <script src="main-search.js"></script>
 <script>
-    var tempC = document.getElementById("currTemperature").textContent;
     
     function loadPage() {
         document.getElementById("locationText").focus();
@@ -35,6 +34,32 @@
         }
     }
     
+    var animateInterval;
+    var currentIndex=0;
+    var values = [1.0,1.1,1.2,1.3,1.4,1.5,1.4,1.3,1.2,1.1];
+    
+    function animateFunc() {
+        var image = document.getElementById('icon');
+        var string = '-webkit-filter: brightness(' + values[currentIndex] +')';
+        image.setAttribute('style',string);
+        if (!values[currentIndex]) {
+           currentIndex = 0;
+        } else {
+           currentIndex++;
+        }
+    }
+    
+    function change() {        
+        animateInterval = setInterval(animateFunc, 100);
+    }
+    function unchange() {
+        clearInterval(animateInterval); 
+        var image = document.getElementById('icon');
+        image.setAttribute('style','-webkit-filter: brightness(1.0)');
+        currentIndex = 0;
+    }
+
+    
 </script>
 <body onload="loadPage()">
     <div id="weatherDisplayArea">
@@ -43,7 +68,7 @@
             <label id="currDate">| Mar 10, 2020</label>
         </p>
         <p>
-            <img name="icon" src="smiley.gif" height="42" width="42">
+            <img id="icon" onmouseover="change()" onmouseout="unchange()" src="img/activity.png" height="42" width="42" >
             <label id="currTemperature">18</label>
             <label id="units">°C</label>
         </p>
