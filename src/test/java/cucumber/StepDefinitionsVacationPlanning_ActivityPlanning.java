@@ -7,6 +7,7 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.assertEquals;
@@ -33,6 +34,7 @@ public class StepDefinitionsVacationPlanning_ActivityPlanning {
 	private static final String normalInputColor = "rgb(206, 212, 218)";
 
 	private final WebDriver driver = new ChromeDriver();
+//	private final WebDriverWait wait = new WebDriverWait(driver, 5);
 	
 	@Given("I am on the Vacation Planning page")
 	public void i_am_on_the_Vacation_Plannin_page() {
@@ -84,7 +86,7 @@ public class StepDefinitionsVacationPlanning_ActivityPlanning {
 	@When("I enter {string} into input {string}")
 	public void i_enter_into_input(String text, String inputId) {
 	    driver.findElement(By.id(inputId)).sendKeys(text);
-	    sleep(5000);
+//	    sleep(10000);
 	}
 	
 	@Then("I should not see an illegal error value for {string}")
@@ -103,6 +105,7 @@ public class StepDefinitionsVacationPlanning_ActivityPlanning {
 	    	}
 	    }
 	    assertTrue(headerFound);
+	    
 	}
 	
 	@When("I click the distance header")
@@ -147,14 +150,28 @@ public class StepDefinitionsVacationPlanning_ActivityPlanning {
 	
 	@Then("I should see activity autocomplete option {string}")
 	public void i_should_see_activity_autocomplete_option(String string) {
-	    WebElement option = driver.findElement(By.linkText("skiing"));
-	    System.out.println("option: " + option.getClass());
+	    List<WebElement> options = driver.findElements(By.className("ui-menu-item-wrapper"));
+	    boolean optionFound = false;
+	    for(WebElement option : options) {
+	    	if(option.getText().contentEquals(string)) {
+	    		System.out.println("option: " + option.getText());
+	    		optionFound = true;
+	    		break;
+	    	}
+	    }
+	    assertTrue(optionFound);
+	    //	    System.out.println("option: " + option.getClass());
 	}
 	
 	@When("I click the activity autocomplete option {string}")
 	public void i_click_the_activity_autocomplete_option(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		List<WebElement> options = driver.findElements(By.className("ui-menu-item-wrapper"));
+	    for(WebElement option : options) {
+	    	if(option.getText().contentEquals(string)) {
+	    		option.click();
+	    		break;
+	    	}
+	    }
 	}
 	
 	@Then("the activity input should say {string}")

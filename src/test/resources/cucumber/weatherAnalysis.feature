@@ -1,12 +1,5 @@
 Feature: Weather Analysis
 
-  Scenario: AIP1 - Favorite cities list: Empty favorite cities list shows a blank list with no button and unit changer
-    Given I am on the Weather Analysis page
-    And The favorite cities list has no item
-    Then AIP: I should see "Currently, there is no city in your favorites list." text in "list-group-no-items"
-    And AIP: I should not see "remove-from-favorites-button" element
-    And AIP: I should not see "unit-changer" element
-
   Scenario: AIP2 - 1.a. Favorite cities list: User can select a city from the favorite cities list area by left-clicking on the city's name
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
@@ -23,7 +16,7 @@ Feature: Weather Analysis
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then AIP: I should see at least 1 "city-photo" elements
+    Then AIP: I should see at least one image in city photo area
 
   Scenario: AIP4 - 2.a. Shows the current weather in the form of the weather display area
     Given I am on the Weather Analysis page
@@ -55,13 +48,13 @@ Feature: Weather Analysis
     And The favorite cities list has one or more items
     Then The list should be sorted alphabetically by city
 
-  Scenario: AIP8 - 3.b. Selecting an entry and then pressing the “Remove from Favorites” button, removes the
-  city from the favorites list
+  Scenario: AIP8 - 3.b. Selecting an entry and then pressing the “Remove from Favorites” button, removes the city from the favorites list
+    Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
     And AIP: I click "remove-from-favorites-button"
     Then A confirmation popup box should be displayed before the removal
-    When I click "Yes" from the confirmation box
+    And I click "Yes" from the confirmation box
     Then The city should be removed from the list
 
   Scenario: AIP9 - 3.c. Pressing the remove button should trigger a confirmation popup box before the removal takes place.

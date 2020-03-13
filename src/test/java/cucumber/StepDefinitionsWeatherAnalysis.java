@@ -57,7 +57,15 @@ public class StepDefinitionsWeatherAnalysis {
 
 	@Then("I should see the city is selected")
 	public void iShouldSeeTheCityIsSelected() {
-		assertTrue(driver.findElement(By.className("list-item-city")).getAttribute("class").contains("active"));
+		List<WebElement> cityNames = driver.findElements(By.className("list-group-item"));
+		Boolean selected = false;
+		for (WebElement city : cityNames) {
+			if (city.getAttribute("class").contains("active")) {
+				selected = true;
+				assertTrue(selected);
+			};
+		}
+		assertTrue(selected);
 	}
 
 	@Then("AIP: I should see {string} element")
@@ -69,6 +77,12 @@ public class StepDefinitionsWeatherAnalysis {
 	public void aipIShouldSeeElements(int num, String string) {
 		assertEquals(num, driver.findElements(By.className(string)).size());
 	}
+	@Then("AIP: I should see at least one image in city photo area")
+	public void iShouldSeeAtLeastOneImageInCityPhotoArea() {
+		WebElement rootWebElement = driver.findElement(By.id("photo-section"));
+		List<WebElement> childs = rootWebElement.findElements(By.xpath(".//*"));
+		assertTrue(childs.size() > 0);
+	}
 
 	@Then("AIP: I should see at least {int} {string} elements")
 	public void aipIShouldSeeAtLeastElements(int num, String string) {
@@ -77,7 +91,7 @@ public class StepDefinitionsWeatherAnalysis {
 
 	@Then("AIP: I should see a value for {string} element")
 	public void aipIShouldSeeAValueForElement(String string) {
-		assertNotEquals("", driver.findElement(By.id(string)).getText());
+		assertFalse(driver.findElement(By.id(string)).getText().isEmpty());
 	}
 
 	@Then("The list should be sorted alphabetically by city")
@@ -105,13 +119,14 @@ public class StepDefinitionsWeatherAnalysis {
 
 	@Then("A confirmation popup box should be displayed before the removal")
 	public void aConfirmationPopupBoxShouldBeDisplayedBeforeTheRemoval() {
-		assertEquals("true", driver.findElement(By.id("dialog-confirm")).getAttribute("data-displayed"));
+		assertTrue(driver.findElement(By.id("dialog-confirm")).getAttribute("displayed").equals("true"));
 	}
 
 	@When("I click {string} from the confirmation box")
 	public void aipIClickFromTheConfirmationBox(String string) {
 		int selectedOption = string.equals("Yes") ? 0 : 1;
-		driver.findElements(By.className("ui-corner-all")).get(0).click();
+		List<WebElement> buttons = driver.findElements(By.className("dialog-confirm-buttons"));
+		buttons.get(selectedOption).click();
 	}
 
 	@Then("The city should be removed from the list")
@@ -122,16 +137,16 @@ public class StepDefinitionsWeatherAnalysis {
 	@Then("The message on the popup box should be Are you sure you want to remove <city name> from favorites?")
 	public void theMessageOnThePopupBoxShouldBe() {
 		String string = "Are you sure you want to remove ";
-		string += driver.findElement(By.className("active")).getAttribute("data-city");
+		string += driver.findElement(By.className("active")).getAttribute("city");
 		string += " from favorites?";
 		assertEquals(string, driver.findElement(By.id("dialog-remove-confirm-message")).getText());
 	}
 
 	@Then("The options should be {string} and {string}")
 	public void theOptionsShouldBeAnd(String string1, String string2) {
-		List<WebElement> options = driver.findElements(By.className("ui-corner-all"));
-		Boolean matches = options.get(0).getText().equals("Yes")
-				&& options.get(0).getText().equals("Cancel");
+		List<WebElement> buttons = driver.findElements(By.className("dialog-confirm-buttons"));
+		Boolean matches = buttons.get(0).getText().equals("Yes")
+				&& buttons.get(1).getText().equals("Cancel");
 		assertTrue(matches);
 	}
 
@@ -143,7 +158,12 @@ public class StepDefinitionsWeatherAnalysis {
 	@Then("The units for the temperatures in the weather analysis area should be changed")
 	public void theUnitsForTheTemperaturesInTheWeatherAnalysisAreaShouldBeChanged() {
 		String string = driver.findElement(By.id("current-temp-val")).getText();
-		assertEquals("F", string.charAt(string.length() - 1));
+		assertEquals('F', string.charAt(string.length() - 1));
+	}
+
+	@After()
+	public void after() {
+		driver.quit();
 	}
 
 }

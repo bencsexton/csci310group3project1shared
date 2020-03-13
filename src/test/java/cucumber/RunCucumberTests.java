@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(strict = true, features = { "src/test/resources/cucumber/searchPage.feature" })
+@CucumberOptions(strict = true, features = { "src/test/resources/cucumber/hello.feature" })
 public class RunCucumberTests {
 
 	@BeforeClass

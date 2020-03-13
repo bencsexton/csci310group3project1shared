@@ -1,13 +1,55 @@
+let locationsF;
+let locationsC;
+let currentLocations = locationsC;
 let rowArray; // holds all of the rows so they can be reordered
+let tempUnits = 'F';
+let distanceIdx;
+let ascending = false; // gets flipped the first time
+
+function initializeTemp(toggleSelector, resultsTable, tableHeaders, tableDatas){
+	$.get({
+		url: "/api/temperature",
+		dataType: 'JSON',
+		success: (result) => { initializeToggle(toggleSelector, result.tempUnits, resultsTable, tableHeaders, tableDatas); }
+	});
+}
 
 //initialize toggle
-function initializeToggle(toggleSelector){
+function initializeToggle(toggleSelector, units, resultsTable, tableHeaders, tableDatas){
 	$(function(){
 		toggleSelector.bootstrapToggle({
 			on: '°F',
 			off: '°C'
 		});
 	});
+	tempUnits = units;
+	if(tempUnits === 'C'){
+		toggleSelector.bootstrapToggle('off');
+	}
+	else{
+		toggleSelector.bootstrapToggle('on');
+	}
+	toggleSelector.change(function(){
+		ascending = !ascending;
+		let locations;
+		if(tempUnits === 'C'){
+			tempUnits = 'F';
+			locations = locationsF;
+		}
+		else{
+			tempUnits = 'C';
+			locations = locationsC;
+		}
+		$.post({
+			url: "/api/temperature",
+			data: {
+				tempUnits: tempUnits
+			}
+		})
+		if(rowArray != null){
+			displayResults(locations, resultsTable, tableHeaders, tableDatas);
+		}
+	})
 }
 
 function hideErrors(resultsTable, inputs){
@@ -35,34 +77,41 @@ function createTableHeader(resultsTable, tableHeaders){
 	resultsTable.append(thead);
 }
 
-function makeAddToFavoritesBtn(button, id){
+function makeAddToFavoritesBtn(button, city, country){
 	button.text("Add to favorites");
 	button.on('click', function(){
-		makeRemoveFromFavoritesBtn(button, id);
+		makeRemoveFromFavoritesBtn(button, city, country);
 		$.post({
-			url: "/api/favorites/add/" + id
+			url: "/api/favorites/add",
+			data: {
+				city: city,
+				country: country
+			}
 		});
 	});
 }
 
-function makeRemoveFromFavoritesBtn(button, id){
+function makeRemoveFromFavoritesBtn(button, city, country){
 	button.text("Remove from favorites");
 	button.on('click', function(){
-		makeAddToFavoritesBtn(button, id);
+		makeAddToFavoritesBtn(button, city, country);
 		$.post({
-			url: "/api/favorites/remove/" + id
+			url: "/api/favorites/remove",
+			data: {
+				city: city,
+				country: country
+			}
 		});
 	});
 }
 
-function makeFavButton(favorite, id){
-	// const a = $("<a></a>");
+function makeFavButton(location){
 	const button = $('<button class="btn btn-outline-secondary fav-btn"></button>');
-	if(favorite){
-		makeAddToFavoritesBtn(button, id);
+	if(location.favorite){
+		makeAddToFavoritesBtn(button, location.city, location.country);
 	}
 	else{
-		makeRemoveFromFavoritesBtn(button, id);
+		makeRemoveFromFavoritesBtn(button, location.city, location.country);
 	}
 	return button;
 }
@@ -78,7 +127,7 @@ function makeRowArray(locations, tableDatas, order){
 			td = $("<td>" + location[attr] + "</td>");
 			row.append(td);
 		}
-		row.append(makeFavButton(location.favorite, location.city));
+		row.append(makeFavButton(location));
 		row.children()[distanceIdx].classList.add('distance');
 		rowArray.push(row);
 		// resultsTable.append(row);
@@ -104,13 +153,14 @@ function displayRows(resultsTable, rowArray){
 }
 
 function displayResults(locations, resultsTable, tableHeaders, tableDatas){
+	resultsTable.empty();
 	if(locations.length == 0){
 		resultsTable.append("No locations found");
 	}
 	else{
 		createTableHeader(resultsTable, tableHeaders);
 		makeRowArray(locations, tableDatas);
-		ascending = true;
+		// ascending = true;
 		sortRows(rowArray);
 		displayRows(resultsTable, rowArray);
 	}
@@ -122,6 +172,7 @@ function initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders,
 	formSelector.on('submit', function(){
 		event.preventDefault();
 		hideErrors(resultsTable, inputs);
+		rowArray = null;
 		$.get({
 			// url: '/api/vacationPlanning/search',
 			url: url,
@@ -130,7 +181,13 @@ function initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders,
 			success: (response) => {
 				console.log(response);
 				if(response.success){
-					displayResults(response.results, resultsTable, tableHeaders, tableDatas);
+					locationsC = response.results.celsius
+					locationsF = response.results.farenheit
+					let locations = locationsC;
+					if (tempUnits == 'F'){
+						locations = locationsF;
+					}
+					displayResults(locations, resultsTable, tableHeaders, tableDatas);
 				}
 				else{
 					showErrors(response.errors, resultsTable);
@@ -141,27 +198,10 @@ function initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders,
 	// return false;
 }
 
-let distanceIdx;
 function setDistanceIdx(tableDatas){
 	distanceIdx = tableDatas.indexOf('distance');
 }
 
-// function cmp(a, b) {
-// 	const ta = parseInt(a[0].children[distanceIdx].innerHTML);
-// 	const tb = parseInt(b[0].children[distanceIdx].innerHTML);
-// 	let ret;
-// 	ascending = !ascending;
-
-// 	if(ascending){
-// 		ret = ta - tb;
-// 		// return parseInt(a[0].children[distanceIdx].innerHTML) - parseInt(b[0].children[distanceIdx].innerHTML);
-// 	}
-// 	else{
-// 		ret = tb - ta;
-// 		// return parseInt(b[0].children[distanceIdx].innerHTML) - parseInt(a[0].children[distanceIdx].innerHTML);
-// 	}
-// 	return ret;
-// }
 function asc(a, b){
 	return parseInt(a[0].children[distanceIdx].innerHTML) - parseInt(b[0].children[distanceIdx].innerHTML);
 }
@@ -169,15 +209,14 @@ function desc(a, b){
 	return parseInt(b[0].children[distanceIdx].innerHTML) - parseInt(a[0].children[distanceIdx].innerHTML);
 }
 
-let ascending = true; // gets flipped the first time
 function sortRows(rowArray){
+	ascending = !ascending;
 	rowArray.reverse();
 	let cmp = desc;
 	if(ascending){
 		cmp = asc;
 	}
 	rowArray.sort(cmp);
-	ascending = !ascending;
 }
 
 function initDistanceSort(distanceHeader, tableDatas, resultsTable){
