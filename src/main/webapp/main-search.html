@@ -5,9 +5,10 @@
     <title>Main Search Page</title>
     <link rel="stylesheet" type="text/css" href="css/main-search.css">
 </head>
-<script src="main-search.js"></script>
+<!--<script src="main-search.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-//    hello
+    
     function loadPage() {
         document.getElementById("locationText").focus();
     }
@@ -58,7 +59,27 @@
         image.setAttribute('style','-webkit-filter: brightness(1.0)');
         currentIndex = 0;
     }
+    
+    function submitform(){
 
+        var request = new JSONHttpRequest();
+        var handleRequestStateChange = function(){  
+            if(request.readyState == 4 && request.status==200){
+                document.getElementById("weatherDisplayArea").style.visibility = "visible";
+                document.getElementById("errorMessage").style.visibility = "hidden";
+                alert("if loaded");
+            } else {
+                //error request status 439
+                document.getElementById("weatherDisplayArea").style.visibility = "hidden";
+                document.getElementById("errorMessage").style.visibility = "visible";
+                alert("error")
+            }
+        }
+        
+        request.open("GET","https://jsonplaceholder.typicode.com/users",false);
+        request.onreadystatechange = handleRequestStateChange;
+        request.send(null);
+    }
     
 </script>
 <body onload="loadPage()">
@@ -69,26 +90,27 @@
         </p>
         <p>
             <img id="icon" onmouseover="change()" onmouseout="unchange()" src="img/activity.png" height="42" width="42" >
-            <label id="currTemperature">18</label>
+            <label id="currTemperature">25</label>
             <label id="units">°C</label>
         </p>
         <p><label id="currDescription">Sunny</label></p>
     </div>
+    <p id="errorMessage">No weather data found</p>
 
-    <form>
+    <form id="mainform" onsubmit="submitform()">
         <p><input type="text" id="locationText" name="locationText" placeholder="Enter location (city or zip)" oninput="clearInput()"><br><br></p>
         <p style="margin-left: -140px; margin-top: -10px; margin-bottom: -10px; font-size: 11px">°C&nbsp;&nbsp;&nbsp;°F</p>
         <p>
             <label class="switch">
-            <input type="checkbox">
-            <span class="slider round" onclick="convertUnits()"></span>
+            <input type="checkbox" id="unitChanger">
+            <span class="slider round" id="unitSlider" onclick="convertUnits()"></span>
             </label>
             <input id="submitButton" type="submit" value="Show me the weather">
         </p>
     </form>
 </body>  
 <footer>
-    <div class="navbar">
+    <div id="nav" class="navbar">
         <a href="#home"class="active">
             <img name="icon" src="img/home.png" height="60" width="60">
         </a>

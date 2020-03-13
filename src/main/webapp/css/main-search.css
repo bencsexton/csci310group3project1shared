@@ -1,10 +1,15 @@
 html, body{
     background-color: snow;
-    margin-top: 40px
+    margin-top: 40px;
 }
 
 p {
-    text-align: center
+    text-align: center;
+}
+
+#errorMessage{
+    visibility: hidden;
+    color: tomato;
 }
 
 
@@ -46,7 +51,6 @@ label {
 
 #currDescription {
     font-size: 13px;
-    background-color: aqua;
 }
 
 #submitButton {
