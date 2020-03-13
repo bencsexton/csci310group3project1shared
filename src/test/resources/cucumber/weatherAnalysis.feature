@@ -17,97 +17,90 @@ Feature: Weather Analysis
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then I should see The weather information for the city should be displayed in the weather analysis area
+    Then AIP: I should see "weather-section" element
 
   Scenario: AIP4 - 1.c. Clicking on a city displays images in city image area
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then The images for the city should be displayed in city image area
+    Then AIP: I should see "photo-section" element
 
   Scenario: AIP4 - 2.a. Shows the current weather in the form of the weather display area
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then The location should be displayed in the current weather area
-    And The date should be displayed in the current weather area
-    And The icon should be displayed in the current weather area
-    And The temperature should be displayed in the current weather area
-    And The description should be displayed in the current weather area
+    Then AIP: I should see "current-city-val" element
+    And AIP: I should see "current-date-val" element
+    And AIP: I should see "current-icon-val" element
+    And AIP: I should see "current-temp-val" element
+    And AIP: I should see "current-desc-val" element
 
   Scenario: AIP5 - 2.b. Displays five day forecast for the location
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then The weather icon should be displayed for the forecast for each day
-    And The date should be displayed for the forecast for each day
-    And The forecasted high should be displayed for the forecast for each day
-    And The forecasted low should be displayed for the forecast for each day
+    Then AIP: I should see 5 "forecast-icon" elements
+    Then AIP: I should see 5 "forecast-date" elements
+    Then AIP: I should see 5 "forecast-high" elements
+    Then AIP: I should see 5 "forecast-low" elements
 
   Scenario: AIP6 - 2.c. Graph of the average highs and lows for the previous year
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then A graph of the monthly average high and low temperatures for the previous year should be displayed
+    Then AIP: I should see "historic-chart" element
 
   Scenario: AIP7 - 3.a. List of favorite cities is shown alphabetically
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
-    Then The list should be sorted alphabetically on city
+    Then The list should be sorted alphabetically by city
 
-  Scenario: AIP8 - 3.b. Selecting an entry and then pressing the Remove from Favorites button, removes the city from the favorites list
+  Scenario: AIP8 - 3.b. Pressing the remove button should trigger a confirmation popup box before the removal takes place.
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
-    And I click a city to select it
-    And I click the Remove from Favorites button
-    Then The city should be removed from the favorites city list
-    And The weather analysis area and the city images area should be cleared
-
-  Scenario: AIP9 - 3.c. Pressing the remove button should trigger a confirmation popup box before the removal takes place
-    Given I am on the Weather Analysis page
-    And The favorite cities list has one or more items
-    And I click a city to select it
-    And I click the Remove from Favorites button
+    When I click a city from the favorite cities list
+    And AIP: I click "remove-from-favorites-button"
     Then A confirmation popup box should be displayed before the removal
+    When I click "Yes" from the confirmation box
+    Then The city should be removed from the list
 
-  Scenario: AIP10 - 3.c.i. Prompt for box "Are you sure you want to remove <city name> from favorites?" Options: "Yes" and "Cancel"
+  Scenario: AIP9 - 3.c. Pressing the remove button should trigger a confirmation popup box before the removal takes place.
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
-    And I click a city to select it
-    And I click the Remove from Favorites button
-    And A confirmation popup box is displayed
-    Then The message on the popup box should be "Are you sure you want to remove <city name> from favorites?"
+    When I click a city from the favorite cities list
+    And AIP: I click "remove-from-favorites-button"
+    Then A confirmation popup box should be displayed before the removal
+    And The message on the popup box should be Are you sure you want to remove <city name> from favorites?
+
+  Scenario: AIP10 - 3.c.i Prompt for box "Are you sure you want to remove <city name> from favorites?" Options: "Yes" and "Cancel"
+    Given I am on the Weather Analysis page
+    And The favorite cities list has one or more items
+    When I click a city from the favorite cities list
+    And AIP: I click "remove-from-favorites-button"
+    Then A confirmation popup box should be displayed before the removal
     And The options should be "Yes" and "Cancel"
 
-  Scenario: AIP11 - Selecting "Yes" from the removal confirmation removes the city from the list
+  Scenario: AIP11 - Selecting "Cancel" from the removal confirmation leave the city in the list
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
-    And I click a city to select it
-    And I click the Remove from Favorites button
-    And I click Yes from the confirmation popup box
-    Then The city should be removed from the favorites city list
-
-  Scenario: AIP12 - Selecting "No" from the removal confirmation leave the city in the list
-    Given I am on the Weather Analysis page
-    And The favorite cities list has one or more items
-    And I click a city to select it
-    And I click the Remove from Favorites button
-    And I click No from the confirmation popup box
+    And I click a city from the favorite cities list
+    And AIP: I click "remove-from-favorites-button"
+    When I click "Cancel" from the confirmation box
     Then The city should be remain in the favorites city list
 
-  Scenario: AIP13 - 4. Page has a unit changer
+  Scenario: AIP12 - 4. Page has a unit changer
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
-    And I click a city to select it
-    Then A unit changer should be displayed
+    And I click a city from the favorite cities list
+    Then AIP: I should see "unit-changer" element
 
-  Scenario: AIP14 - Changing unit changes the units for the weather analysis area
+  Scenario: AIP13 - Changing unit changes the units for the weather analysis area
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
-    And I click a city to select it
-    And I click the unit changer
+    When I click a city from the favorite cities list
+    And AIP: I click "unit-changer"
     Then The units for the temperatures in the weather analysis area should be changed
 
-  Scenario: AIP15 - 5. Page displays a navigation bar
+  Scenario: AIP14 - 5. Page displays a navigation bar
     Given I am on the Weather Analysis page
-    Then A navigation bar should be displayed
+    Then AIP: I should see "navigation-bar" element

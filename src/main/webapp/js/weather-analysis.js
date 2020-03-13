@@ -1,4 +1,4 @@
-var tempUnit = "F";
+var tempUnit = "fahrenheit";
 
 $(document).ready(function() {
     loadFavorites();
@@ -41,20 +41,86 @@ function displayFavorites(favorites) {
     }
     
     handleCitySelection();
+    handleRemoveFromFavoritesButton();
 }
 
 function handleCitySelection() {
     $('a').click(function() {        
         $('a.list-group-item.active').removeClass('active');
-        $(this).addClass('active');   
+        $(this).addClass('active');
         
         const locationId = $(this).data('location-id');
         getWeatherData(locationId)
     });    
 }
 
+function handleRemoveFromFavoritesButton() {
+    $('#remove-from-favorites-button').click(function() {
+        const selectedCity = $('a.list-group-item.active').data('city');
+        $("#dialog-selected-city").text(selectedCity);
+        
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Yes": removeCityFromFavorites,
+                "Cancel": function() {
+                    $(this).dialog("close");
+                    $("#dialog-confirm").data('displayed', 'false');
+                }
+            }
+        });
+        $("#dialog-confirm").data('displayed', 'true');
+    });
+}
+                
+function removeCityFromFavorites() {
+    const endpoint = "http://127.0.0.1:5000/api/favorites/remove";
+    
+    let params = {
+        'city' : $('a.list-group-item.active').data('city'),
+        'country' : $('a.list-group-item.active').data('country')
+    };      
+    $.post(endpoint, params)
+        .done(function() {
+
+            // remove the city from the list    
+            $('a.list-group-item.active').remove();
+
+            // remove the weather analysis and photo area
+            removeCurrentWeatherArea();
+            $('.forecast').remove();
+            $('.historic').remove();
+            $('#photo-section').empty()
+
+            // if it was the last item
+            if ($('a').size() == 0) {
+                $('.list-group-no-items').show();
+                $('.list-buttons').hide();
+                $('.onoffswitch').hide();
+            }
+        })
+        .fail(function() {
+            alert("There was an error while removing the city from the favorite cities list.");
+        });
+    $("#dialog-confirm").data('displayed', 'false');
+}
+
+function removeCurrentWeatherArea() {
+    $('#current-city-val').text('');
+    $('#current-splitter-val').text('');
+    $('#current-date-val').text('');
+    //TODO: icon
+    $('#current-icon-val').removeClass();
+    $('#current-icon-val').addClass('wi');
+    $('#current-temp-val').text('');
+    $('#current-desc-val').text('');
+}
+
 function getWeatherData(locationId) {
-    const endpoint = 'http://127.0.0.1:5000/api/weather-analysis/data?location-id=' + locationId;    
+    const endpoint = 'http://127.0.0.1:5000/api/weather-analysis/data?location-id=' + locationId + '&unit=' + tempUnit;
     $.getJSON(endpoint, function(results) {
         console.log(results);
         displayWeatherData(results);        
@@ -65,7 +131,7 @@ function displayWeatherData(results) {
     displayCurrentWeather(results.current);
     displayForecast(results.forecast);
     displayHistoricData(results.historic);
-    displayCityImage(results.image);    
+    displayCityImage(results.images);    
 }
 
 function displayCurrentWeather(current) {
@@ -74,7 +140,7 @@ function displayCurrentWeather(current) {
     $('#current-date-val').text(current.date);
     //TODO: icon
     $('#current-icon-val').addClass('wi-night-sleet');
-    $('#current-temp-val').text(current.temp + '\xB0' + tempUnit);
+    $('#current-temp-val').text(current.temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
     $('#current-desc-val').text(current.desc);
 }
 
@@ -87,8 +153,8 @@ function displayForecast(forecast) {
             .appendTo('#weather-section');
     for (let f of forecast) {
         let p1 = $('<p>').text(f.date);
-        let p2 = $('<p>').text(f.max_temp + '\xB0' + tempUnit);
-        let p3 = $('<p>').text(f.min_temp + '\xB0' + tempUnit);
+        let p2 = $('<p>').text(f.max_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
+        let p3 = $('<p>').text(f.min_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
         // TODO: icon
         let i1 = $('<i>').addClass('wi').addClass('wi-night-sleet');
         
@@ -112,10 +178,10 @@ function displayHistoricData(historic) {
                 .addClass('historic')
                 .appendTo('#weather-section');
     $('<div>').addClass('col-12')
-            .attr('id', 'historic-col')
+            .attr('id', 'historic-chart')
             .appendTo('.historic');
     $('<div>').addClass('card')
-            .appendTo('#historic-col');
+            .appendTo('#historic-chart');
     $('<div>').addClass('card-body')
             .appendTo('.card');
     $('<canvas>').attr('id', 'chLine')
@@ -174,12 +240,32 @@ function drawChart(historic) {
     }
 }
 
-function displayCityImage(image) {    
+function displayCityImage(images) {    
     if ($('#photo-section').length) {
         $('#photo-section').empty();
-    }    
-    $('<img>')
-        .attr('id', 'city-photo')
-        .attr('src', image)
-        .appendTo($('#photo-section'));
+    }
+    for (let url of images.urls) {
+        $('<img>')
+            .addClass('city-photo')
+            .attr('src', url)
+            .css('display', 'none')
+            .appendTo($('#photo-section'));    
+    }
+    slideshow();
 }
+
+var slideIndex = 0;
+function slideshow()
+{
+    const slides = $(".city-photo");
+    for (let slide of slides) {
+        slide.style.display = 'none';
+    }
+    ++slideIndex;
+    if (slideIndex > slides.length) {
+        slideIndex = 1;
+    }
+    slides[slideIndex-1].style.display = 'block';
+    setTimeout(slideshow, 7000);
+}
+
