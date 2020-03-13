@@ -20,7 +20,7 @@ public class Locations {
 	public Locations() {
 		// TODO Auto-generated constructor stub
 	}
-	private static String filename = "src\\main\\java\\csci310\\activities.txt";
+	private static String filename = "src\\main\\java\\csci310\\cities.txt";
 	
 	public static List<String> getCityCountries(){
 		File file = new File(filename); 
@@ -50,9 +50,18 @@ public class Locations {
 		
 		List<String> cities = getCityCountries();
 		List<HashMap<String, Object>> locations = new ArrayList<HashMap<String, Object>>();
-		for(int i = 0; i < n; i++) {
+		int end = n;
+		if (cities.size() < n) {
+			end = cities.size();
+		}
+		for(int i = 0; i < cities.size(); i++) {
+			if(locations.size() == end) {
+				break;
+			}
 			SearchForecast sf = WeatherAPIConnector.getSearchForecast(cities.get(i), WeatherAPIConnector.getCurrentDate());
 			float temp = sf.getTemperatureRange();
+			System.out.println("temp: " + temp);
+			System.out.println("lowTemp: " + lowTemp);
 			if(temp >= lowTemp && temp <= highTemp) {
 				HashMap<String, Object> ret = new HashMap<String, Object>();
 				String[] cc = cities.get(i).split(",");
