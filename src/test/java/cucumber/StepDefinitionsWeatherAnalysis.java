@@ -20,6 +20,15 @@ import static org.junit.Assert.assertTrue;
 
 public class StepDefinitionsWeatherAnalysis {
 
+	private static void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private static final String ROOT_URL = "http://localhost:8080/";
 	private static final String PAGE_URL = "http://localhost:8080/weather-analysis.html";
 
@@ -53,11 +62,20 @@ public class StepDefinitionsWeatherAnalysis {
 	@When("I click a city from the favorite cities list")
 	public void iClickACityFromTheFavoriteCitiesList() {
 		driver.findElement(By.className("list-item-city")).click();
+//		sleep(2000);
 	}
 
 	@Then("I should see the city is selected")
 	public void iShouldSeeTheCityIsSelected() {
-		assertTrue(driver.findElement(By.className("list-item-city")).getAttribute("class").contains("active"));
+		List<WebElement> cityNames = driver.findElements(By.className("list-item-city"));
+		Boolean selected = false;
+		for (WebElement city : cityNames) {
+			if (city.getAttribute("class").contains("active")) {
+				selected = true;
+				assertTrue(selected);
+			};
+		}
+		assertTrue(selected);
 	}
 
 	@Then("AIP: I should see {string} element")
@@ -101,6 +119,7 @@ public class StepDefinitionsWeatherAnalysis {
 	@When("AIP: I click {string}")
 	public void iClickTheRemoveFromFavoritesButtons(String string) {
 		driver.findElement(By.id("remove-from-favorites-button")).click();
+//		sleep(2000);
 	}
 
 	@Then("A confirmation popup box should be displayed before the removal")
@@ -112,6 +131,7 @@ public class StepDefinitionsWeatherAnalysis {
 	public void aipIClickFromTheConfirmationBox(String string) {
 		int selectedOption = string.equals("Yes") ? 0 : 1;
 		driver.findElements(By.className("ui-corner-all")).get(0).click();
+//		sleep(2000);
 	}
 
 	@Then("The city should be removed from the list")
@@ -143,7 +163,12 @@ public class StepDefinitionsWeatherAnalysis {
 	@Then("The units for the temperatures in the weather analysis area should be changed")
 	public void theUnitsForTheTemperaturesInTheWeatherAnalysisAreaShouldBeChanged() {
 		String string = driver.findElement(By.id("current-temp-val")).getText();
-		assertEquals("F", string.charAt(string.length() - 1));
+		assertEquals('F', string.charAt(string.length() - 1));
+	}
+
+	@After()
+	public void after() {
+		driver.quit();
 	}
 
 }
