@@ -7,12 +7,12 @@ const toggleSelector = $('#tempToggle');
 const formSelector = $('#search-form');
 
 const activityInput = $('#activity');
-const activityUrl = '/api/activityPlanning/activities'
+const activityUrl = 'http://localhost:7890/api/activityPlanning/activities'
 
 const distanceHeader = $('#distance');
 
 
-initializeToggle(toggleSelector);
+initializeTemp(toggleSelector, resultsTable, tableHeaders, tableDatas);
 setDistanceIdx(tableDatas);
 initializeSearch(formSelector, url, resultsTable, inputs, tableHeaders, tableDatas);
 

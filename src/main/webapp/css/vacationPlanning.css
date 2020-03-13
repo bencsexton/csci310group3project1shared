@@ -29,3 +29,5 @@ html, body, .container-fluid{
 #hidden-autocomplete-results{
 	display: none;
 }
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 30px; }
+.toggle.ios .toggle-handle { border-radius: 50px; }
