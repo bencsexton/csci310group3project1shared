@@ -40,45 +40,58 @@ public class Locations {
 	}
 	
 	public static List<HashMap<String, Object>> getValidCities(float lowTemp, float highTemp, int n, String currentLocation){
-		JsonParser parser = new JsonParser();
-		String jsonResult = WeatherAPIConnector.getLatLong(currentLocation);
-		JsonArray jaLatLong = parser.parse(jsonResult).getAsJsonArray();
-		JsonObject joLatLong =  jaLatLong.get(0).getAsJsonObject();
-		double a_lat = joLatLong.get("lat").getAsDouble();
-		double a_lon = joLatLong.get("lon").getAsDouble();
-		
-		
-		List<String> cities = getCityCountries();
 		List<HashMap<String, Object>> locations = new ArrayList<HashMap<String, Object>>();
-		int end = n;
-		if (cities.size() < n) {
-			end = cities.size();
+		try {
+			JsonParser parser = new JsonParser();
+			String jsonResult = WeatherAPIConnector.getLatLong(currentLocation);
+			JsonArray jaLatLong = parser.parse(jsonResult).getAsJsonArray();
+			JsonObject joLatLong =  jaLatLong.get(0).getAsJsonObject();
+			System.out.println(jsonResult);
+			double a_lat = joLatLong.get("lat").getAsDouble();
+			double a_lon = joLatLong.get("lon").getAsDouble();
+			
+			
+			List<String> cities = getCityCountries();
+			int end = n;
+			if (cities.size() < n) {
+				end = cities.size();
+			}
+			for(int i = 0; i < cities.size(); i++) {
+				if(locations.size() == end) {
+					break;
+				}
+				SearchForecast sf = WeatherAPIConnector.getSearchForecast(cities.get(i), WeatherAPIConnector.getCurrentDate());
+				float temp = sf.getTemperatureRange();
+				System.out.println("temp: " + temp);
+				System.out.println("city: " + cities.get(i));
+				if(temp >= lowTemp && temp <= highTemp) {
+					HashMap<String, Object> ret = new HashMap<String, Object>();
+					String[] cc = cities.get(i).split(",");
+					ret.put("city", cc[0]);
+					ret.put("country", cc[1]);
+					ret.put("currentTemp", (int)sf.getTemperatureRange());
+					ret.put("avgMinTemp", (int)sf.getTemperatureRange() - 26);
+					ret.put("avgMaxTemp", (int)sf.getTemperatureRange() + 26);
+					ret.put("favorite", false);
+					
+					jsonResult = WeatherAPIConnector.getLatLong(cc[0]);
+					try {
+						jaLatLong = parser.parse(jsonResult).getAsJsonArray();
+						joLatLong =  jaLatLong.get(0).getAsJsonObject();
+						double b_lat = joLatLong.get("lat").getAsDouble();
+						double b_lon = joLatLong.get("lon").getAsDouble();
+						double d = WeatherAPIConnector.haversineDistance(a_lat, a_lon, b_lat, b_lon);
+						ret.put("distance", (int)d);
+						locations.add(ret);
+					}
+					catch(Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
+			}
 		}
-		for(int i = 0; i < cities.size(); i++) {
-			if(locations.size() == end) {
-				break;
-			}
-			SearchForecast sf = WeatherAPIConnector.getSearchForecast(cities.get(i), WeatherAPIConnector.getCurrentDate());
-			float temp = sf.getTemperatureRange();
-			System.out.println("temp: " + temp);
-			System.out.println("lowTemp: " + lowTemp);
-			if(temp >= lowTemp && temp <= highTemp) {
-				HashMap<String, Object> ret = new HashMap<String, Object>();
-				String[] cc = cities.get(i).split(",");
-				ret.put("city", cc[0]);
-				ret.put("country", cc[1]);
-				ret.put("currentTemp", sf.getTemperatureRange());
-				ret.put("favorite", false);
-				
-				jsonResult = WeatherAPIConnector.getLatLong(cc[0]);
-				jaLatLong = parser.parse(jsonResult).getAsJsonArray();
-				joLatLong =  jaLatLong.get(0).getAsJsonObject();
-				double b_lat = joLatLong.get("lat").getAsDouble();
-				double b_lon = joLatLong.get("lon").getAsDouble();
-				double d = WeatherAPIConnector.haversineDistance(a_lat, a_lon, b_lat, b_lon);
-				ret.put("distance", d);
-				locations.add(ret);
-			}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
 		return locations;
 	}

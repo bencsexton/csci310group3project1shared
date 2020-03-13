@@ -88,7 +88,14 @@ public class VacationPlanningSearch extends HttpServlet {
 			responseObject.put("success", true);
 			
 //			List<String> cities = Locations.getCi();
-			
+			List<HashMap<String, Object>> h = Locations.getValidCities(Float.parseFloat(params.get(0)), Float.parseFloat(params.get(1)), numResults, params.get(3));
+			HashMap<String, Object> deg = new HashMap<String, Object>();
+			deg.put("farenheit", h);
+			deg.put("celsius", h);
+			HashMap<String, Object> results = new HashMap<String, Object>();
+//			results.put("results", )
+//			JsonReader.setLenient(true);
+			responseObject.put("results", deg);
 		}
 		
 		Gson gson = new Gson();

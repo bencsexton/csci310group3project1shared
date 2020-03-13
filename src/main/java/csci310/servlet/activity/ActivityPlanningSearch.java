@@ -101,11 +101,16 @@ public class ActivityPlanningSearch extends HttpServlet {
 			deg.put("celsius", h);
 			HashMap<String, Object> results = new HashMap<String, Object>();
 //			results.put("results", )
+//			JsonReader.setLenient(true);
 			responseObject.put("results", deg);
 		}
-		
+		String responseString = "";
 		Gson gson = new Gson();
-		String responseString = gson.toJson(responseObject);
+		try {
+			responseString = gson.toJson(responseObject);
+		}
+		catch(Exception e) {response.getWriter().write("error");}
 		response.getWriter().write(responseString);
+		
 	}
 }
