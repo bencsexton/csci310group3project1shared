@@ -8,7 +8,7 @@ let ascending = false; // gets flipped the first time
 
 function initializeTemp(toggleSelector, resultsTable, tableHeaders, tableDatas){
 	$.get({
-		url: "http://localhost:7890/api/temperature",
+		url: "/api/temperature",
 		dataType: 'JSON',
 		success: (result) => { initializeToggle(toggleSelector, result.tempUnits, resultsTable, tableHeaders, tableDatas); }
 	});
@@ -31,13 +31,23 @@ function initializeToggle(toggleSelector, units, resultsTable, tableHeaders, tab
 	}
 	toggleSelector.change(function(){
 		ascending = !ascending;
+		let locations;
 		if(tempUnits === 'C'){
 			tempUnits = 'F';
-			displayResults(locationsF, resultsTable, tableHeaders, tableDatas);
+			locations = locationsF;
 		}
 		else{
 			tempUnits = 'C';
-			displayResults(locationsC, resultsTable, tableHeaders, tableDatas);
+			locations = locationsC;
+		}
+		$.post({
+			url: "/api/temperature",
+			data: {
+				tempUnits: tempUnits
+			}
+		})
+		if(rowArray != null){
+			displayResults(locations, resultsTable, tableHeaders, tableDatas);
 		}
 	})
 }
