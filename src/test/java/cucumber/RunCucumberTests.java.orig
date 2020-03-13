@@ -10,8 +10,16 @@ import org.junit.runner.RunWith;
  * Run all the cucumber tests in the current package.
  */
 @RunWith(Cucumber.class)
+<<<<<<< HEAD
 @CucumberOptions(strict = true, features = { "src/test/resources/cucumber/searchPage.feature" })
-//@CucumberOptions(strict = true, features = { "src/test/resources/cucumber/hello.feature" })
+||||||| merged common ancestors
+@CucumberOptions(strict = true, features = { "src/test/resources/cucumber/hello.feature" })
+=======
+@CucumberOptions(
+	strict = true,
+	features = { "src/test/resources/cucumber/activityPlanning.feature"}
+)
+>>>>>>> 32046e65da39aa9d52537b12d14a46fff6a33b43
 public class RunCucumberTests {
 
 	@BeforeClass

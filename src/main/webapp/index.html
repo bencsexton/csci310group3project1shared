@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+ <?php header('Access-Control-Allow-Origin: *'); ?>
  <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -61,22 +62,25 @@
     }
     
     function submitform(){
-
-        var request = new JSONHttpRequest();
+        var request = new XMLHttpRequest();
+        var location = document.getElementById("locationText").value;
+        var url = "http://0.0.0.0:8080/SearchServlet?location=" + location;
+        alert(url);
+        request.open("GET",url,false);
         var handleRequestStateChange = function(){  
             if(request.readyState == 4 && request.status==200){
                 document.getElementById("weatherDisplayArea").style.visibility = "visible";
                 document.getElementById("errorMessage").style.visibility = "hidden";
                 alert("if loaded");
+                var result = JSON.parse(this.responseText);
+                alert(result);
             } else {
                 //error request status 439
                 document.getElementById("weatherDisplayArea").style.visibility = "hidden";
                 document.getElementById("errorMessage").style.visibility = "visible";
-                alert("error")
+                console.log("error")
             }
         }
-        
-        request.open("GET","https://jsonplaceholder.typicode.com/users",false);
         request.onreadystatechange = handleRequestStateChange;
         request.send(null);
     }

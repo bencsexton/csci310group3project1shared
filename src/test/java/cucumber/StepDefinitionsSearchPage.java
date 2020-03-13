@@ -10,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,14 +18,18 @@ import static org.junit.Assert.assertTrue;
 public class StepDefinitionsSearchPage {
 
 	private static final String ROOT_URL = "http://0.0.0.0:8080/";
-	private static final String PAGE_URL = "http://0.0.0.0:8080/main-search.html"; // FEEL FREE TO CHANGE
+	private static final String PAGE_URL = "http://0.0.0.0:8080/index.html"; // FEEL FREE TO CHANGE
 
 	public final WebDriver driver = new ChromeDriver();
 
 	@Given("I am on the search page")
 	public void i_am_on_the_search_page() {
 		driver.get(PAGE_URL);
-	}	
+	}
+	@Given("I am at root")
+	public void at_root() {
+		driver.get(ROOT_URL);
+	}
 	@Given("unit is F")
 	public void current_unit_is_F() {
 		WebElement units = driver.findElement(By.id("units"));
@@ -44,6 +49,11 @@ public class StepDefinitionsSearchPage {
                 "25");
 	}
 	
+	@When("I mouse over weather graphic")
+	public void mouse_over_weather_graphic() {
+		Actions act = new Actions(driver);
+		
+	}
 
 	@When("I reload page")
 	public void i_reload_page() {
@@ -110,6 +120,10 @@ public class StepDefinitionsSearchPage {
 	@Then("I should see navigation bar")
 	public void should_see_navbar() {
 		assertTrue(driver.findElement(By.id("nav")).isDisplayed());
+	}
+	@Then("I should see the search page")
+	public void should_see_search_page() {
+		assertEquals("Main Search Page", driver.getTitle());
 	}
 
 	
