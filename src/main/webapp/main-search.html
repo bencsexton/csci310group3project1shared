@@ -7,6 +7,8 @@
 </head>
 <script src="main-search.js"></script>
 <script>
+    var tempC = document.getElementById("currTemperature").textContent;
+    
     function loadPage() {
         document.getElementById("locationText").focus();
     }
@@ -14,6 +16,25 @@
     function clearInput() {
         document.getElementById("locationText").placeholder = "";
     }
+    function convertUnits() {
+        var temp = document.getElementById("currTemperature").textContent;
+        var tempInteger = Math.round(parseFloat(temp));
+        var units = document.getElementById("units").textContent;
+        if (units === "°F"){
+            tempInteger = (tempInteger-32)*5/9;
+            document.getElementById("units").innerHTML = '°C';
+            tempInteger = tempInteger.toString();
+            tempInteger = Math.round(parseFloat(tempInteger));
+            document.getElementById("currTemperature").innerHTML = tempInteger;
+        } else {
+            tempInteger = (tempInteger/5*9)+32;
+            tempInteger = tempInteger.toString();
+            tempInteger = Math.round(parseFloat(tempInteger));
+            document.getElementById("units").innerHTML = '°F';
+            document.getElementById("currTemperature").innerHTML = tempInteger;
+        }
+    }
+    
 </script>
 <body onload="loadPage()">
     <div id="weatherDisplayArea">
@@ -23,19 +44,19 @@
         </p>
         <p>
             <img name="icon" src="smiley.gif" height="42" width="42">
-            <label id="currTemperature">64</label>
-            <label id="units">°F</label>
+            <label id="currTemperature">18</label>
+            <label id="units">°C</label>
         </p>
         <p><label id="currDescription">Sunny</label></p>
     </div>
 
     <form>
-        <p><input type="text" id="locationText" name="locationText" placeholder="Enter location (city or zip)" oninput="clearText()"><br><br></p>
+        <p><input type="text" id="locationText" name="locationText" placeholder="Enter location (city or zip)" oninput="clearInput()"><br><br></p>
         <p style="margin-left: -140px; margin-top: -10px; margin-bottom: -10px; font-size: 11px">°C&nbsp;&nbsp;&nbsp;°F</p>
         <p>
             <label class="switch">
             <input type="checkbox">
-            <span class="slider round"></span>
+            <span class="slider round" onclick="convertUnits()"></span>
             </label>
             <input id="submitButton" type="submit" value="Show me the weather">
         </p>
