@@ -2,6 +2,8 @@ package csci310.servlet.vacation;
 
 import com.google.gson.Gson;
 
+import csci310.Locations;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Servlet implementation class VacationPlanningSearch
@@ -80,6 +83,12 @@ public class VacationPlanningSearch extends HttpServlet {
 		if(errorList.size() > 0) {
 			responseObject.put("success", false);
 			responseObject.put("errors", errorList);
+		}
+		else {
+			responseObject.put("success", true);
+			
+//			List<String> cities = Locations.getCi();
+			
 		}
 		
 		Gson gson = new Gson();
