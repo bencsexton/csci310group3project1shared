@@ -3,7 +3,7 @@ package csci310.model;
 import java.util.Date;
 
 public class FutureForecast {
-	private Date date = new Date(0);
+	private Date date;
 	private float maxTemp;
 	private float minTemp;
 	private String desc;
