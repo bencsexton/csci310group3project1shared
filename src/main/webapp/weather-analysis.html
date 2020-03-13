@@ -22,8 +22,8 @@
             <div class="list-group" id="favorite-cities-list">
 
             </div>
-            <div class="list-buttons" id="remove-from-favorites-button">
-                <div class="button-container">
+            <div class="list-buttons">
+                <div class="button-container"  id="remove-from-favorites-button">
                     <button type="button" class="btn remove-fav-button">Remove from Favorites</button>
                 </div>
                 <div class="onoffswitch" id="unit-changer">
@@ -65,22 +65,22 @@
         </div>
     </div>
 </div>
-<div class="row navigation-bar navbar" id="navigation-bar">
-    <a href="#home"class="nb-active">
-        <img name="icon" src="img/home.png" height="60" width="60">
-    </a>
-    <a href="#vacation"class="nb-active">
-        <img name="icon" src="img/vacation.png" height="60" width="60">
-    </a>
-    <a href="#activity"class="nb-active">
-        <img name="icon" src="img/activity.png" height="60" width="60">
-    </a>
-    <a href="#analysis"class="nb-active">
-        <img name="icon" src="img/analysis.png" height="60" width="60">
-    </a>
+<div class="navigation-bar" id="navigation-bar">
+    <div class="navbar">
+        <a href="main-search.html" class="nb-active">
+            <img name="icon" src="img/home.png" height="60" width="60">
+        </a>
+        <a href="vacationPlanning.html" class="nb-active">
+            <img name="icon" src="img/vacation.png" height="60" width="60">
+        </a>
+        <a href="activityPlanning.html" class="nb-active">
+            <img name="icon" src="img/activity.png" height="60" width="60">
+        </a>
+        <a href="" class="nb-active">
+            <img name="icon" src="img/analysis.png" height="60" width="60">
+        </a>
+    </div>
 </div>
-
-
 <!--
     <div id="dialog-confirm" title="Confirm" data-displayed="false">
         <p id="dialog-remove-confirm-message">Are you sure you want to remove <span id="dialog-selected-city"></span> from favorites?</p>
@@ -102,9 +102,11 @@
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="css/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="css/weather-analysis/jquery-ui-1.12.1.custom/jquery-ui.min.css">
-<script src="css/weather-analysis/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<!--
+    <link rel="stylesheet" type="text/css" href="css/weather-analysis/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+    <script src="css/weather-analysis/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 
+-->
 <script src="js/weather-analysis/Chart.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/weather-analysis/weather-icons-master/css/weather-icons.min.css">

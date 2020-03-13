@@ -56,27 +56,6 @@ function handleCitySelection() {
     });
 }
 
-//function handleRemoveFromFavoritesButton() {
-//    $('#remove-from-favorites-button').click(function() {
-//        const selectedCity = $('a.list-group-item.active').data('city');
-//        $("#dialog-selected-city").text(selectedCity);
-//
-//        $("#dialog-confirm").dialog({
-//            resizable: false,
-//            height: "auto",
-//            width: 400,
-//            modal: true,
-//            buttons: {
-//                "Yes": removeCityFromFavorites,
-//                "Cancel": function() {
-//                    $(this).dialog("close");
-//                    $("#dialog-confirm").data('displayed', 'false');
-//                }
-//            }
-//        });
-//        $("#dialog-confirm").data('displayed', 'true');
-//    });
-//}
 function handleRemoveFromFavoritesButton() {
     $('#remove-from-favorites-button').click(function() {
         if ($('a.list-group-item.active').length) {
@@ -136,7 +115,6 @@ function removeCurrentWeatherArea() {
     $('#current-city-val').text('');
     $('#current-splitter-val').text('');
     $('#current-date-val').text('');
-    //TODO: icon
     $('#current-icon-val').removeClass();
     $('#current-icon-val').addClass('wi');
     $('#current-temp-val').text('');
@@ -161,9 +139,8 @@ function displayWeatherData(results) {
 function displayCurrentWeather(current) {
     $('#current-city-val').text(current.city + ', ' + current.country);
     $('#current-splitter-val').text('|');
-    $('#current-date-val').text(current.date);
-    //TODO: icon
-    $('#current-icon-val').addClass('wi-night-sleet');
+    $('#current-date-val').text(getToday());
+    $('#current-icon-val').addClass('wi-forecast-io-' + current.icon);
     $('#current-temp-val').text(current.temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
     $('#current-desc-val').text(current.desc);
 }
@@ -175,12 +152,12 @@ function displayForecast(forecast) {
     let parent = $('<div>')
         .addClass('forecast')
         .appendTo('#weather-section');
-    for (let f of forecast) {
-        let p1 = $('<p>').text(f.date);
-        let p2 = $('<p>').text(f.max_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
-        let p3 = $('<p>').text(f.min_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
-        // TODO: icon
-        let i1 = $('<i>').addClass('wi').addClass('wi-night-sleet');
+    let dates = getForecastDates();
+    for (let i = 0; i < forecast.length; ++i) {
+        let p1 = $('<p>').text(dates[i]);
+        let p2 = $('<p>').text(forecast[i].max_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
+        let p3 = $('<p>').text(forecast[i].min_temp + '\xB0' + tempUnit.toUpperCase().charAt(0));
+        let i1 = $('<i>').addClass('wi').addClass('wi-forecast-io-' + forecast[i].icon);
 
         let div1 = $('<div>').addClass('forecast-date').append(p1);
         let div2 = $('<div>').addClass('forecast-icon').append(i1);
@@ -262,6 +239,7 @@ function drawChart(historic) {
             }
         });
     }
+    handleUnitChange();
 }
 
 function displayCityImage(images) {
@@ -295,3 +273,27 @@ function slideshow()
     }
 }
 
+var months =["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function getToday() {
+    let today = new Date();
+    let day = today.getDate();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    return months[month] + " " + day + ", " + year;
+}
+
+function getForecastDates() {
+    let today = new Date();
+    let day = today.getDate();
+    let month = today.getMonth();
+    let dates = [];
+    for (let i = 0; i < 5; ++i) {
+        dates.push(months[month] + " " + (day + i));
+    }
+    return dates;
+}
+
+function handleUnitChange() {
+
+}
