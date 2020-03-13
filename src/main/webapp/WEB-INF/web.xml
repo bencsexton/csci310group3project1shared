@@ -24,6 +24,10 @@
     <servlet-name>TempSettingServlet</servlet-name>
     <servlet-class>csci310.servlet.TempSettingServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>VacationPlanningSearch</servlet-name>
+  	<servlet-class>csci310.servlet.vacation.VacationPlanningSearch</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>HelloServlet</servlet-name>
     <url-pattern>/hello</url-pattern>
@@ -43,6 +47,10 @@
   <servlet-mapping>
     <servlet-name>TempSettingServlet</servlet-name>
     <url-pattern>/api/temperature</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>VacationPlanningSearch</servlet-name>
+  	<url-pattern>/api/vacationPlanning/search</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>
