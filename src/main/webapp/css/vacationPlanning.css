@@ -31,3 +31,30 @@ html, body, .container-fluid{
 }
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 30px; }
 .toggle.ios .toggle-handle { border-radius: 50px; }
+
+.navbar {
+  bottom: 0;
+  width: 100%;
+    text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+
+/* Style the links inside the navigation bar */
+.navbar a {
+  display: inline-block;
+  color: #f2f2f2;
+    align-items: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+
+}
+
+/* Change the color of links on hover */
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
