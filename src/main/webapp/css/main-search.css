@@ -46,6 +46,7 @@ label {
 
 #currDescription {
     font-size: 13px;
+    background-color: aqua;
 }
 
 #submitButton {
@@ -134,6 +135,10 @@ input:checked + .slider:before {
 .navbar a:hover {
   background-color: #ddd;
   color: black;
+}
+
+#icon{
+background-color: black;
 }
 
 

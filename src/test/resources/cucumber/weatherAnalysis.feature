@@ -17,23 +17,23 @@ Feature: Weather Analysis
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then AIP: I should see "weather-section" element
+    Then AIP: I should see "historic-chart" element
 
   Scenario: AIP4 - 1.c. Clicking on a city displays images in city image area
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then AIP: I should see "photo-section" element
+    Then AIP: I should see at least 1 "city-photo" elements
 
   Scenario: AIP4 - 2.a. Shows the current weather in the form of the weather display area
     Given I am on the Weather Analysis page
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
-    Then AIP: I should see "current-city-val" element
-    And AIP: I should see "current-date-val" element
-    And AIP: I should see "current-icon-val" element
-    And AIP: I should see "current-temp-val" element
-    And AIP: I should see "current-desc-val" element
+    Then AIP: I should see a value for "current-city-val" element
+    And AIP: I should see a value for "current-date-val" element
+    And AIP: I should see a value for "current-icon-val" element
+    And AIP: I should see a value for "current-temp-val" element
+    And AIP: I should see a value for "current-desc-val" element
 
   Scenario: AIP5 - 2.b. Displays five day forecast for the location
     Given I am on the Weather Analysis page
@@ -55,8 +55,8 @@ Feature: Weather Analysis
     And The favorite cities list has one or more items
     Then The list should be sorted alphabetically by city
 
-  Scenario: AIP8 - 3.b. Pressing the remove button should trigger a confirmation popup box before the removal takes place.
-    Given I am on the Weather Analysis page
+  Scenario: AIP8 - 3.b. Selecting an entry and then pressing the “Remove from Favorites” button, removes the
+  city from the favorites list
     And The favorite cities list has one or more items
     When I click a city from the favorite cities list
     And AIP: I click "remove-from-favorites-button"
@@ -70,7 +70,7 @@ Feature: Weather Analysis
     When I click a city from the favorite cities list
     And AIP: I click "remove-from-favorites-button"
     Then A confirmation popup box should be displayed before the removal
-    And The message on the popup box should be Are you sure you want to remove <city name> from favorites?
+
 
   Scenario: AIP10 - 3.c.i Prompt for box "Are you sure you want to remove <city name> from favorites?" Options: "Yes" and "Cancel"
     Given I am on the Weather Analysis page
@@ -78,6 +78,7 @@ Feature: Weather Analysis
     When I click a city from the favorite cities list
     And AIP: I click "remove-from-favorites-button"
     Then A confirmation popup box should be displayed before the removal
+    And The message on the popup box should be Are you sure you want to remove <city name> from favorites?
     And The options should be "Yes" and "Cancel"
 
   Scenario: AIP11 - Selecting "Cancel" from the removal confirmation leave the city in the list

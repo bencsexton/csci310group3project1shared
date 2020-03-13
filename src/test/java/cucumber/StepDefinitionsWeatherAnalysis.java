@@ -70,6 +70,16 @@ public class StepDefinitionsWeatherAnalysis {
 		assertEquals(num, driver.findElements(By.className(string)).size());
 	}
 
+	@Then("AIP: I should see at least {int} {string} elements")
+	public void aipIShouldSeeAtLeastElements(int num, String string) {
+		assertTrue(driver.findElements(By.id(string)).size() >= num);
+	}
+
+	@Then("AIP: I should see a value for {string} element")
+	public void aipIShouldSeeAValueForElement(String string) {
+		assertNotEquals("", driver.findElement(By.id(string)).getText());
+	}
+
 	@Then("The list should be sorted alphabetically by city")
 	public void theListShouldBeSortedAlphabeticallyByCity() {
 		List<WebElement> cityNames = driver.findElements(By.className("list-item-city"));
