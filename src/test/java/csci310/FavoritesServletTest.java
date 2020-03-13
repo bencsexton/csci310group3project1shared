@@ -74,12 +74,13 @@ public class FavoritesServletTest {
     public void testAddAndList() throws IOException, ServletException {
 
         // Session mocking properties
-        HashSet<String> favs = new HashSet<>();
+        HashSet<JsonObject> favs = new HashSet<>();
         when(session.getAttribute("favorites")).thenReturn(favs);
 
         // Add the object with the addition endpoint
         JsonObject postBody = new JsonObject();
-        postBody.addProperty("cityId", "San Francisco");
+        postBody.addProperty("city", "San Francisco");
+        postBody.addProperty("country", "United States");
 
         when(request1.getSession()).thenReturn(session);
         when(request2.getSession()).thenReturn(session);
@@ -100,7 +101,10 @@ public class FavoritesServletTest {
 
         JsonObject expectedResponse = new JsonObject();
         expectedResponse.add("favorites", new JsonArray());
-        expectedResponse.getAsJsonArray("favorites").add(new JsonPrimitive("San Francisco"));
+        JsonObject favEntry = new JsonObject();
+        favEntry.addProperty("city", "San Francisco");
+        favEntry.addProperty("country", "United States");
+        expectedResponse.getAsJsonArray("favorites").add(favEntry);
         JsonParser parser = new JsonParser();
         Assert.assertEquals(expectedResponse, parser.parse(result));
     }
@@ -114,7 +118,8 @@ public class FavoritesServletTest {
 
         // Add the object with the addition endpoint
         JsonObject postBody = new JsonObject();
-        postBody.addProperty("cityId", "San Francisco");
+        postBody.addProperty("city", "San Francisco");
+        postBody.addProperty("country", "United States");
 
         when(request1.getSession()).thenReturn(session);
         when(request2.getSession()).thenReturn(session);

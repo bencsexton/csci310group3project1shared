@@ -20,6 +20,10 @@
     <servlet-name>FavoritesRemoveServlet</servlet-name>
     <servlet-class>csci310.servlet.favorites.FavoritesRemoveServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TempSettingServlet</servlet-name>
+    <servlet-class>csci310.servlet.TempSettingServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>HelloServlet</servlet-name>
     <url-pattern>/hello</url-pattern>
@@ -35,6 +39,10 @@
   <servlet-mapping>
     <servlet-name>FavoritesRemoveServlet</servlet-name>
     <url-pattern>/api/favorites/remove</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TempSettingServlet</servlet-name>
+    <url-pattern>/api/temperature</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>
