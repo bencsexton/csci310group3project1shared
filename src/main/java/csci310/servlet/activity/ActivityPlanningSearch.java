@@ -65,6 +65,15 @@ public class ActivityPlanningSearch extends HttpServlet {
 			responseObject.put("success", false);
 			responseObject.put("errors", errorList);
 		}
+		else {
+			// valid
+			responseObject.put("success", true);
+			String currentLocation = params.get(2);
+			// get lat/long of current city - currentLocation 
+			
+			
+			
+		}
 		
 		Gson gson = new Gson();
 		String responseString = gson.toJson(responseObject);
