@@ -5,10 +5,12 @@ $(document).ready(function() {
 });
 
 function loadFavorites() {
-    const endpoint = "http://localhost:5000/api/favorites/list";
+    const endpoint = "http://localhost:8080/api/favorites/list";
+//	const endpoint = "/api/favorites/list/";
     $.getJSON(endpoint, function(results) {
         console.log(results);
-        const favorites = results.favorites;
+        //const favorites = results.favorites;
+        const favorites = results;
         if (favorites.length == 0) {
             $('.list-group-no-items').show();
             $('.list-buttons').hide();
@@ -34,7 +36,7 @@ function displayFavorites(favorites) {
         let a = $('<a>')
             .addClass('list-group-item')
             .addClass('list-group-item-action')
-            //            .attr("data-location-id", location.id)
+            .attr("data-location-id", location.id)
             .attr("city", location.city)
             .attr("country", location.country)
             //            .attr('href', '#')
@@ -77,7 +79,8 @@ function handleRemoveFromFavoritesButton() {
 }
 
 function removeCityFromFavorites() {
-    const endpoint = "http://localhost:5000/api/favorites/remove";
+    const endpoint = "http://localhost:8080/api/favorites/remove";
+//	const endpoint = "/api/favorites/remove";
 
     let params = {
         'city' : $('a.list-group-item.active').attr('city'),
@@ -122,7 +125,8 @@ function removeCurrentWeatherArea() {
 }
 
 function getWeatherData(locationId) {
-    const endpoint = 'http://localhost:5000/api/weather-analysis/data?location-id=' + locationId + '&unit=' + tempUnit;
+    const endpoint = 'http://localhost:8080/api/weather-analysis/data?location-id=' + locationId + '&unit=' + tempUnit;
+//	const endpoint = '/api/weather-analysis/data?location-id=' + locationId + '&unit=' + tempUnit;
     $.getJSON(endpoint, function(results) {
         console.log(results);
         displayWeatherData(results);
@@ -137,7 +141,10 @@ function displayWeatherData(results) {
 }
 
 function displayCurrentWeather(current) {
-    $('#current-city-val').text(current.city + ', ' + current.country);
+	
+	const city = $('a.list-group-item.active').attr('city');
+    const country = $('a.list-group-item.active').attr('country');
+    $('#current-city-val').text(city + ', ' + country);
     $('#current-splitter-val').text('|');
     $('#current-date-val').text(getToday());
     $('#current-icon-val').addClass('wi-forecast-io-' + current.icon);
@@ -253,14 +260,15 @@ function displayCityImage(images) {
             .css('display', 'none')
             .appendTo($('#photo-section'));
     }
-    slideshow();
+// 	slideshow();
+ 	$(".city-photo")[0].style.display = 'block';
+
 }
 
-var slideIndex = 0;
-function slideshow()
-{
-    const slides = $(".city-photo");
-    if (slides.length > 0) {
+var slideIndex = 0;    
+function slideshow() {    
+ 	slides = $(".city-photo");
+	if (slides.length > 0) {
         for (let slide of slides) {
             slide.style.display = 'none';
         }
@@ -269,7 +277,7 @@ function slideshow()
             slideIndex = 1;
         }
         slides[slideIndex-1].style.display = 'block';
-        setTimeout(slideshow, 7000);
+        setTimeout(slideshow, 5000);
     }
 }
 

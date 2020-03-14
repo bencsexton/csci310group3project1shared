@@ -161,6 +161,11 @@ public class StepDefinitionsWeatherAnalysis {
 		assertEquals('F', string.charAt(string.length() - 1));
 	}
 
+	@Then("AIP: The {string} element should have additional class name than default {string}")
+	public void aipTheElementShouldHaveAdditionalClassNameThanDefault(String string1, String string2) {
+		assertNotEquals(string2, driver.findElement(By.id(string1)).getAttribute("class"));
+	}
+	
 	@After()
 	public void after() {
 		driver.quit();

@@ -1,10 +1,11 @@
 html, body, .row, .col {
     margin: 0;
     padding: 0;
+    background-color: snow;
+    
 }
 .content-container {
     padding: 10px;
-    background-color: snow;
     color: #333333;
     font-family: Helvetica Neue, sans-serif;
 }
@@ -234,16 +235,8 @@ html, body, .row, .col {
     background-color: rgba(25, 25, 112, 0.7);
 }
 
-
-.navigation-bar {
-    /*    height: 200px;*/
-    background: transparent;
-    border-top: 1px solid #bbbbbb;
-}
-
-
 .navbar {
-    bottom: 0;
+	bottom: 0;
     width: 100%;
     text-align: center;
     position: relative;
@@ -264,7 +257,7 @@ html, body, .row, .col {
 }
 
 
-/* Pure CSS3 on/fff switch with animated transition implementation borrowed from https://proto.io/freebies/onoff */
+/* Pure CSS3 on/off switch with animated transition implementation borrowed from https://proto.io/freebies/onoff */
 .onoffswitch {
     margin-left: 30px;
     position: relative; width: 55px;

@@ -25,26 +25,38 @@
     <servlet-class>csci310.servlet.TempSettingServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>VacationPlanningSearch</servlet-name>
-  	<servlet-class>csci310.servlet.vacation.VacationPlanningSearch</servlet-class>
+    <servlet-name>VacationPlanningSearch</servlet-name>
+    <servlet-class>csci310.servlet.vacation.VacationPlanningSearch</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>ActivityPlanningActivities</servlet-name>
-  	<display-name>ActivityPlanningActivities</display-name>
-  	<description></description>
-  	<servlet-class>csci310.servlet.activity.ActivityPlanningActivities</servlet-class>
+    <servlet-name>ActivityPlanningActivities</servlet-name>
+    <display-name>ActivityPlanningActivities</display-name>
+    <description></description>
+    <servlet-class>csci310.servlet.activity.ActivityPlanningActivities</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>ActivityPlanningSearch</servlet-name>
-  	<display-name>ActivityPlanningSearch</display-name>
-  	<description></description>
-  	<servlet-class>csci310.servlet.activity.ActivityPlanningSearch</servlet-class>
+    <servlet-name>ActivityPlanningSearch</servlet-name>
+    <display-name>ActivityPlanningSearch</display-name>
+    <description></description>
+    <servlet-class>csci310.servlet.activity.ActivityPlanningSearch</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>SearchServlet</servlet-name>
-  	<display-name>SearchServlet</display-name>
-  	<description></description>
-  	<servlet-class>csci310.servlet.search.SearchServlet</servlet-class>
+    <servlet-name>SearchServlet</servlet-name>
+    <display-name>SearchServlet</display-name>
+    <description></description>
+    <servlet-class>csci310.servlet.search.SearchServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MockitiAnalysisServlet</servlet-name>
+    <display-name>MockitiAnalysisServlet</display-name>
+    <description></description>
+    <servlet-class>csci310.servlet.analysis.MockitiAnalysisServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MockitiFavoritesListServlet</servlet-name>
+    <display-name>MockitiFavoritesListServlet</display-name>
+    <description></description>
+    <servlet-class>csci310.servlet.analysis.MockitiFavoritesListServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>HelloServlet</servlet-name>
@@ -52,7 +64,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>FavoritesListServlet</servlet-name>
-    <url-pattern>/api/favorites/list</url-pattern>
+    <url-pattern>/api/favorites/list-temporarily-disabled</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>FavoritesAddServlet</servlet-name>
@@ -67,20 +79,28 @@
     <url-pattern>/api/temperature</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>VacationPlanningSearch</servlet-name>
-  	<url-pattern>/api/vacationPlanning/search</url-pattern>
+    <servlet-name>VacationPlanningSearch</servlet-name>
+    <url-pattern>/api/vacationPlanning/search</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>ActivityPlanningActivities</servlet-name>
-  	<url-pattern>/api/activityPlanning/activities</url-pattern>
+    <servlet-name>ActivityPlanningActivities</servlet-name>
+    <url-pattern>/api/activityPlanning/activities</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>ActivityPlanningSearch</servlet-name>
-  	<url-pattern>/api/activityPlanning/search</url-pattern>
+    <servlet-name>ActivityPlanningSearch</servlet-name>
+    <url-pattern>/api/activityPlanning/search</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>SearchServlet</servlet-name>
-  	<url-pattern>/SearchServlet</url-pattern>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/SearchServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MockitiAnalysisServlet</servlet-name>
+    <url-pattern>/api/weather-analysis/data</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MockitiFavoritesListServlet</servlet-name>
+    <url-pattern>/api/favorites/list</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>
